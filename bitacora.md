@@ -16,11 +16,11 @@
 | ----------------------- | -------------------------------------------------------------------------------------------------- |
 | Fase actual             | MVP v1.0                                                                                           |
 | Caja en curso           | **CAJA MVP-02: Proyecto Base**                                                                      |
-| Última tarea completada | `02.1.2` — Crear estructura completa de carpetas del proyecto                                       |
-| Próxima tarea           | `02.1.3` — Pendiente según secuencia de Caja MVP-02                                                 |
+| Última tarea completada | `02.1.3` — Inicializar proyecto Next.js con dependencias                                             |
+| Próxima tarea           | `02.1.4` — Pendiente según secuencia de Caja MVP-02                                                 |
 | Bloqueadores            | Ninguno                                                                                            |
 | Fecha inicio proyecto   | 2026-02-27                                                                                         |
-| Último commit           | N/A — Repositorio reiniciado                                                                       |
+| Último commit           | PENDIENTE — se actualizará tras commit de 02.1.3                                                    |
 | Branch                  | main                                                                                               |
 
 ## MAPA DE PROGRESO
@@ -119,8 +119,18 @@ FORMATO POR TAREA:
 - **Archivos creados/modificados**: `src/**/.gitkeep`, `supabase/**/.gitkeep`, `tests/**/.gitkeep`, `scripts/.gitkeep`, `.vscode/.gitkeep`, `.github/**/.gitkeep`, `bitacora.md`
 - **Tests**: N/A
 - **Validación**: Estructura completa creada; 68 archivos `.gitkeep`; `src/lib/email/` no existe; tools/actions/core/infra requeridos presentes
-- **Commit**: PENDIENTE
+- **Commit**: 71345b9 — feat(02): create complete project folder structure with gitkeep files
 - **Notas**: Se aplicaron exclusiones de tecnologías prohibidas (sin `email`, `prisma`, `trpc`, `redis` standalone)
+
+### [02.1.3] — Inicializar proyecto Next.js con dependencias
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-02-27 10:03
+- **Archivos creados/modificados**: `package.json`, `pnpm-lock.yaml`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `tailwind.config.ts`, `.gitignore`, `.eslintrc.json`, `next-env.d.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `public/*`, `bitacora.md`
+- **Tests**: N/A
+- **Validación**: `next` y `react` con `~`; engines node/pnpm configurados; lockfile generado; `src` conserva 71 directorios; no dependencias prohibidas; `src/lib/email/` ausente; `pnpm lint` y `pnpm typecheck` en verde; `next build` compila correctamente; `pnpm dev` levantó listeners en `:3000`
+- **Commit**: PENDIENTE
+- **Notas**: Se usó inicialización temporal y merge en raíz para preservar la estructura de 02.1.2 y el historial Git
 
 ## ISSUES Y DEUDA TÉCNICA
 
