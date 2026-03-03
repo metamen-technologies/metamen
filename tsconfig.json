@@ -31,7 +31,15 @@
     /* === Path Aliases === */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/core/*": ["./src/lib/core/*"],
+      "@/core": ["./src/lib/core"],
+      "@/types/*": ["./src/types/*"],
+      "@/types": ["./src/types"],
+      "@/components/*": ["./src/components/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/actions/*": ["./src/lib/server/actions/*"],
+      "@/stores/*": ["./src/stores/*"]
     },
 
     /* === Plugins === */
