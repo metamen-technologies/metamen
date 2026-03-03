@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.1.11` — Validar design tokens CSS properties   |
-| Próxima tarea           | `02.1.12` — (siguiente en secuencia Caja MVP-02)    |
+| Última tarea completada | `02.2.1` — ESLint 9 flat config + security plugin  |
+| Próxima tarea           | `02.2.2` — (siguiente en secuencia Caja MVP-02)     |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | `34117d3` chore(02.1.10): verify turbopack         |
+| Último commit           | `8b22a8a` chore(02.2.1): eslint security plugin    |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [██░░░░░░░░] 5/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [██░░░░░░░░] 6/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 5 tareas completadas
+- **Total actual**: 6 tareas completadas
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -144,6 +144,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] de validacion)
 - **Commit**: PENDIENTE
 - **Notas**: Validacion pura. Los 33 tokens de color (3 fondos + 5 accent + 4 semanticos + 4 texto + 12 vectores + 5 niveles + 4 rareza) ya estaban presentes con valores HEX exactos desde tarea 02.1.6. No existe tailwind.config.ts (correcto para v4). pnpm build pasa sin errores.
+
+### [02.2.1] — Configurar ESLint 9 flat config con plugin de seguridad
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 05:00
+- **Archivos**: eslint.config.mjs, package.json, pnpm-lock.yaml
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `8b22a8a`
+- **Notas**: eslint-plugin-security@4.0.0 instalado. Reglas activas: detect-eval-with-expression (error), detect-unsafe-regex (error), detect-non-literal-regexp/require/object-injection/timing-attacks (warn). @typescript-eslint/no-explicit-any en error. Glob patterns validados: **/*.ts, **/*.tsx, **/*.js, **/*.mjs con prefijo recursivo correcto. pnpm lint pasa sin errores. Nota: detect-eval-with-expression detecta eval(variable) no eval("literal") — comportamiento correcto por diseno.
 
 ---
 
