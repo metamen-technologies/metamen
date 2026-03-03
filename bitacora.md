@@ -16,8 +16,8 @@
 | ----------------------- | ------------------------------------------------------------- |
 | Fase actual             | MVP v1.0                                                      |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                              |
-| Última tarea completada | `02.3.6` — Documentar branch naming convention                |
-| Próxima tarea           | `02.3.7` — (siguiente en secuencia Caja MVP-02)               |
+| Última tarea completada | `02.4.1` — Configurar CI workflow                             |
+| Próxima tarea           | `02.4.2` — (siguiente en secuencia Caja MVP-02)               |
 | Bloqueadores            | Ninguno                                                       |
 | Fecha inicio proyecto   | 2026-02-21                                                    |
 | Último commit           | `95df28f` test(02): verify complete linting pipeline — 02.2.8 |
@@ -26,7 +26,7 @@
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 14/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 15/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 14 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 15 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -234,6 +234,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] documentacion)
 - **Commit**: PENDIENTE
 - **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
+
+### [02.4.1] — Configurar CI workflow
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 12:00
+- **Archivos**: .github/workflows/ci.yml
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: PENDIENTE
+- **Notas**: CI con 4 jobs paralelos (lint, type-check, unit-test, build). actions/checkout@v4, pnpm/action-setup@v2 (v9.15.0), actions/setup-node@v4 (node 20, cache pnpm). .next/cache via actions/cache@v4 solo en build job. Concurrency con cancel-in-progress. timeout-minutes: 15 para todos los jobs. Sin env vars dummy. YAML validado con yaml-lint.
 
 ---
 
