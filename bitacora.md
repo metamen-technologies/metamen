@@ -16,8 +16,8 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.1.10` — Verificar Turbopack en desarrollo      |
-| Próxima tarea           | `02.1.11` — (siguiente en secuencia Caja MVP-02)    |
+| Última tarea completada | `02.1.11` — Validar design tokens CSS properties   |
+| Próxima tarea           | `02.1.12` — (siguiente en secuencia Caja MVP-02)    |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
 | Último commit           | `34117d3` chore(02.1.10): verify turbopack         |
@@ -26,7 +26,7 @@
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [██░░░░░░░░] 4/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [██░░░░░░░░] 5/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 4 tareas completadas
+- **Total actual**: 5 tareas completadas
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -135,6 +135,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [SETUP])
 - **Commit**: `34117d3`
 - **Notas**: Turbopack APROBADO. Cold start 1354ms (vs Webpack 1711ms, -21%). HMR 90ms (vs Webpack 305ms, -70%). Panic inicial resuelto eliminando archivo `nul` espurio (artefacto de Windows de validación PostCSS anterior). Sin incompatibilidades reales.
+
+### [02.1.11] — Validar design tokens CSS custom properties
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 04:30
+- **Archivos**: (sin cambios — globals.css ya cumple al 100%)
+- **Test**: N/A (tarea [CONFIG] de validacion)
+- **Commit**: PENDIENTE
+- **Notas**: Validacion pura. Los 33 tokens de color (3 fondos + 5 accent + 4 semanticos + 4 texto + 12 vectores + 5 niveles + 4 rareza) ya estaban presentes con valores HEX exactos desde tarea 02.1.6. No existe tailwind.config.ts (correcto para v4). pnpm build pasa sin errores.
 
 ---
 
