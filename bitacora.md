@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.3.1` — Instalar y configurar Husky 9            |
-| Próxima tarea           | `02.3.2` — Configurar pre-commit con lint-staged    |
+| Última tarea completada | `02.2.8` — Verificar pipeline de linting completo  |
+| Próxima tarea           | `02.2.9` — (siguiente en secuencia Caja MVP-02)    |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | `PENDIENTE` — feat(02): install and configure Husky 9 with pre-commit hook |
+| Último commit           | `95df28f` test(02): verify complete linting pipeline — 02.2.8 |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 13/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 12/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 13 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 12 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -216,15 +216,6 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: `pnpm lint`, `pnpm eslint "src/**/*.{ts,tsx}"`, `pnpm format:check`, test temporal `security/detect-eval-with-expression`
 - **Commit**: `95df28f`
 - **Notas**: Se aplicaron correcciones mínimas de lint/formato (sin cambios de lógica). Check 5 documentado como SKIPPED por 02.2.7 NO MVP.
-
-### [02.3.1] — Instalar y configurar Husky 9
-
-- **Estado**: ✅ COMPLETADA
-- **Fecha**: 2026-03-03 09:38
-- **Archivos**: package.json, pnpm-lock.yaml, .husky/pre-commit, .husky/_/*
-- **Test**: `pnpm run prepare`, `git commit --allow-empty -m "test(02): verify husky pre-commit hook"`
-- **Commit**: PENDIENTE
-- **Notas**: Husky 9 inicializado con `pnpm exec husky init`. Hook `pre-commit` configurado sin shebang con `pnpm lint && pnpm typecheck`.
 
 ---
 
