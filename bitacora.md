@@ -16,8 +16,8 @@
 | ----------------------- | ------------------------------------------------------------- |
 | Fase actual             | MVP v1.0                                                      |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                              |
-| Última tarea completada | `02.3.3` — Configurar pre-push hook                           |
-| Próxima tarea           | `02.3.4` — (siguiente en secuencia Caja MVP-02)               |
+| Última tarea completada | `02.3.6` — Documentar branch naming convention                |
+| Próxima tarea           | `02.3.7` — (siguiente en secuencia Caja MVP-02)               |
 | Bloqueadores            | Ninguno                                                       |
 | Fecha inicio proyecto   | 2026-02-21                                                    |
 | Último commit           | `95df28f` test(02): verify complete linting pipeline — 02.2.8 |
@@ -26,7 +26,7 @@
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 13/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 14/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 13 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 14 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -225,6 +225,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG])
 - **Commit**: PENDIENTE
 - **Notas**: Hook pre-push ejecuta `pnpm typecheck && pnpm test -- --passWithNoTests`. Ajuste: `--passWithNoTests` agregado porque no hay tests aun en el proyecto (vitest exit code 1 sin tests). El flag `--run` del prompt se omitio porque el script test ya incluye `vitest run`. Line endings corregidos a LF. typecheck redundante con pre-commit es intencional (defense in depth).
+
+### [02.3.6] — Documentar branch naming convention
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 11:05
+- **Archivos**: .github/BRANCH_NAMING.md
+- **Test**: N/A (tarea [CONFIG] documentacion)
+- **Commit**: PENDIENTE
+- **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
 
 ---
 
