@@ -12,22 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                                                                              |
-| ----------------------- | -------------------------------------------------------------------------------------------------- |
-| Fase actual             | MVP v1.0                                                                                           |
-| Caja en curso           | **CAJA MVP-02: Proyecto Base**                                                                      |
-| Última tarea completada | `02.1.3` — Inicializar proyecto Next.js con dependencias                                             |
-| Próxima tarea           | `02.1.4` — Pendiente según secuencia de Caja MVP-02                                                 |
-| Bloqueadores            | Ninguno                                                                                            |
-| Fecha inicio proyecto   | 2026-02-27                                                                                         |
-| Último commit           | PENDIENTE — se actualizará tras commit de 02.1.3                                                    |
-| Branch                  | main                                                                                               |
+| Campo                   | Valor                                              |
+| ----------------------- | -------------------------------------------------- |
+| Fase actual             | MVP v1.0                                           |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
+| Última tarea completada | `02.1.2` — Inicializar proyecto Next.js 15         |
+| Próxima tarea           | `02.1.3` — Configurar package.json completo        |
+| Bloqueadores            | Ninguno                                            |
+| Fecha inicio proyecto   | 2026-02-21                                         |
+| Último commit           | (pendiente en este commit)                         |
+| Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-01: Fundación           [░░░░░░░░░░] 0/??   ← EN CURSO
-CAJA MVP-02: Infraestructura     [░░░░░░░░░░] 0/??
+CAJA MVP-02: Infraestructura     [█░░░░░░░░░] 1/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -42,18 +41,18 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## TECH STACK CONFIGURADO
 
-| Servicio      | Status         | Notas                                 |
-| ------------- | -------------- | ------------------------------------- |
-| Next.js 15    | ⬜ Pendiente   | Target: ~15.1.0                       |
-| Supabase      | ⬜ Pendiente   | CLI + Local dev + Migrations          |
-| Stripe        | ⬜ Pendiente   | Test mode, 3 precios                  |
-| Gemini API    | ⬜ Pendiente   | Google AI Studio key                  |
-| Resend        | ⬜ Pendiente   | Dominio por verificar                 |
-| Upstash Redis | ⬜ Pendiente   | Free tier                             |
-| Inngest       | ⬜ Pendiente   | Cron jobs + Background jobs           |
-| Vercel        | ⬜ Pendiente   | Conectar repo                         |
-| Sentry        | ⬜ Pendiente   | Free tier                             |
-| PostHog       | ⬜ Pendiente   | Free tier                             |
+| Servicio      | Status       | Notas                  |
+| ------------- | ------------ | ---------------------- |
+| Next.js 15    | ✅ Configurado | 15.5.12 + App Router |
+| Supabase      | ⬜ Pendiente |                        |
+| Stripe        | ⬜ Pendiente |                        |
+| Gemini API    | ⬜ Pendiente |                        |
+| Resend        | ⬜ Pendiente |                        |
+| Upstash Redis | ⬜ Pendiente |                        |
+| Inngest       | ⬜ Pendiente |                        |
+| Vercel        | ⬜ Pendiente |                        |
+| Sentry        | ⬜ Pendiente |                        |
+| PostHog       | ⬜ Pendiente |                        |
 
 ## CREDENCIALES OBTENIDAS
 
@@ -78,7 +77,6 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 | SENTRY_DSN                         | ⬜     |
 | NEXT_PUBLIC_POSTHOG_KEY            | ⬜     |
 
-
 ## DECISIONES DE ARQUITECTURA (Referencia rápida)
 
 - **UI agrupada por 5 vectores** (AURA, JAWLINE, WEALTH, PHYSIQUE, SOCIAL) — no 4 arquetipos
@@ -100,48 +98,25 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-<!--
-FORMATO POR TAREA:
-### [ID] — Título
-- **Estado**: ✅ COMPLETADA | ⚠️ PARCIAL | ❌ FALLIDA
-- **Fecha**: YYYY-MM-DD HH:MM
-- **Archivos creados/modificados**: ruta1, ruta2
-- **Tests**: ruta.test.ts (X passed, 0 failed) | N/A si no aplica
-- **Validación**: Resultado del criterio de validación de la tarea
-- **Commit**: hash corto + mensaje
-- **Notas**: Observaciones, decisiones, problemas encontrados
--->
+- **Total actual**: 1 tarea completada
 
-### [02.1.2] — Crear estructura completa de carpetas del proyecto
+### [02.1.2] — Inicializar proyecto Next.js 15
 
 - **Estado**: ✅ COMPLETADA
-- **Fecha**: 2026-02-27 09:39
-- **Archivos creados/modificados**: `src/**/.gitkeep`, `supabase/**/.gitkeep`, `tests/**/.gitkeep`, `scripts/.gitkeep`, `.vscode/.gitkeep`, `.github/**/.gitkeep`, `bitacora.md`
-- **Tests**: N/A
-- **Validación**: Estructura completa creada; 68 archivos `.gitkeep`; `src/lib/email/` no existe; tools/actions/core/infra requeridos presentes
-- **Commit**: 71345b9 — feat(02): create complete project folder structure with gitkeep files
-- **Notas**: Se aplicaron exclusiones de tecnologías prohibidas (sin `email`, `prisma`, `trpc`, `redis` standalone)
+- **Fecha**: 2026-03-02 19:00
+- **Archivos**: .gitignore, eslint.config.mjs, next.config.ts, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, postcss.config.mjs, src/app/layout.tsx, src/app/page.tsx, src/app/globals.css, tsconfig.json, public/*
+- **Test**: N/A (tarea [SETUP])
+- **Commit**: (se registrará en este commit)
+- **Notas**: Scaffold inicial con Next.js 15 + React 19, Tailwind v4, ESLint flat config, Turbopack en `pnpm dev`.
 
-### [02.1.3] — Inicializar proyecto Next.js con dependencias
-
-- **Estado**: ✅ COMPLETADA
-- **Fecha**: 2026-02-27 10:03
-- **Archivos creados/modificados**: `package.json`, `pnpm-lock.yaml`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `tailwind.config.ts`, `.gitignore`, `.eslintrc.json`, `next-env.d.ts`, `src/app/layout.tsx`, `src/app/page.tsx`, `src/app/globals.css`, `public/*`, `bitacora.md`
-- **Tests**: N/A
-- **Validación**: `next` y `react` con `~`; engines node/pnpm configurados; lockfile generado; `src` conserva 71 directorios; no dependencias prohibidas; `src/lib/email/` ausente; `pnpm lint` y `pnpm typecheck` en verde; `next build` compila correctamente; `pnpm dev` levantó listeners en `:3000`
-- **Commit**: PENDIENTE
-- **Notas**: Se usó inicialización temporal y merge en raíz para preservar la estructura de 02.1.2 y el historial Git
+---
 
 ## ISSUES Y DEUDA TÉCNICA
 
-<!-- Registrar aquí problemas encontrados que no se resuelven en la tarea actual -->
-
-*Sin issues activos. Proyecto en estado inicial.*
+- Sin issues ni deuda técnica registrados.
 
 ---
 
 ## NOTAS DE SESIÓN
 
-<!-- Cada sesión de trabajo debe agregar una entrada aquí -->
-
-- 2026-02-27 — **REINICIO DE PROYECTO**: Bitácora restablecida a estado inicial. Se mantiene especificación de arquitectura y stack tecnológico como referencia. Todas las cajas y tareas regresan a estado pendiente. Repositorio listo para inicialización limpia.
+- Sin notas de sesión registradas.
