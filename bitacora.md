@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.1.2` — Inicializar proyecto Next.js 15         |
-| Próxima tarea           | `02.1.3` — Configurar package.json completo        |
+| Última tarea completada | `02.1.3` — Configurar package.json completo        |
+| Próxima tarea           | `02.1.4` — Configurar TypeScript strict             |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | (pendiente en este commit)                         |
+| Último commit           | `5c0ee2f` fix(02.1.3): add packages field...       |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [█░░░░░░░░░] 1/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [██░░░░░░░░] 2/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 1 tarea completada
+- **Total actual**: 2 tareas completadas
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -106,8 +106,17 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Fecha**: 2026-03-02 19:00
 - **Archivos**: .gitignore, eslint.config.mjs, next.config.ts, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, postcss.config.mjs, src/app/layout.tsx, src/app/page.tsx, src/app/globals.css, tsconfig.json, public/*
 - **Test**: N/A (tarea [SETUP])
-- **Commit**: (se registrará en este commit)
+- **Commit**: `bd26fae`
 - **Notas**: Scaffold inicial con Next.js 15 + React 19, Tailwind v4, ESLint flat config, Turbopack en `pnpm dev`.
+
+### [02.1.3] — Configurar package.json completo
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-02 21:00
+- **Archivos**: package.json, .npmrc, pnpm-lock.yaml, pnpm-workspace.yaml
+- **Test**: N/A (tarea [SETUP])
+- **Commit**: `b433092` (feat) + `5c0ee2f` (fix)
+- **Notas**: Configuración completa con 17 dependencias MVP y 15 devDependencies. Scripts añadidos: test, test:watch, test:coverage, clean, verify. Correcciones post-auditoría: campo `packages` en pnpm-workspace.yaml y em-dash en descripción.
 
 ---
 
