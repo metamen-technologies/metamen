@@ -1,0 +1,88 @@
+{
+  "version": 3,
+  "skills": {
+    "vercel-react-best-practices": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-skills.git",
+      "skillPath": "skills/react-best-practices/SKILL.md",
+      "skillFolderHash": "079b06a135401704ea94ab74c7c9d86c92ba259f",
+      "installedAt": "2026-02-27T17:45:15.607Z",
+      "updatedAt": "2026-02-27T17:45:15.607Z"
+    },
+    "supabase-postgres-best-practices": {
+      "source": "supabase/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/supabase/agent-skills.git",
+      "skillPath": "skills/supabase-postgres-best-practices/SKILL.md",
+      "skillFolderHash": "95fe6d29daaf88aa9bc3b505ca4defe19ceabf92",
+      "pluginName": "postgres-best-practices",
+      "installedAt": "2026-02-27T17:45:21.141Z",
+      "updatedAt": "2026-02-27T17:45:21.141Z"
+    },
+    "systematic-debugging": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/superpowers.git",
+      "skillPath": "skills/systematic-debugging/SKILL.md",
+      "skillFolderHash": "828c239ac986cc1fc7edd10292f66e4a3640e9c0",
+      "installedAt": "2026-02-27T17:45:27.331Z",
+      "updatedAt": "2026-02-27T17:45:27.331Z"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/superpowers.git",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "skillFolderHash": "98904a7d8e0e04b9bd46220b9b17298f45fe0b72",
+      "installedAt": "2026-02-27T17:45:27.410Z",
+      "updatedAt": "2026-02-27T17:45:27.410Z"
+    },
+    "using-superpowers": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/superpowers.git",
+      "skillPath": "skills/using-superpowers/SKILL.md",
+      "skillFolderHash": "2a7f5982368c25f5352a5be2d10ad9a753334226",
+      "installedAt": "2026-02-27T17:45:27.490Z",
+      "updatedAt": "2026-02-27T17:45:27.490Z"
+    },
+    "verification-before-completion": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/superpowers.git",
+      "skillPath": "skills/verification-before-completion/SKILL.md",
+      "skillFolderHash": "ceb2f1f67f4cadb29b32a06e54d3d0be832071f5",
+      "installedAt": "2026-02-27T17:45:27.566Z",
+      "updatedAt": "2026-02-27T17:45:27.566Z"
+    },
+    "typescript-advanced-types": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/wshobson/agents.git",
+      "skillPath": "plugins/javascript-typescript/skills/typescript-advanced-types/SKILL.md",
+      "skillFolderHash": "782e78a277e639718b0f9fec905ca51bb16a5a95",
+      "installedAt": "2026-02-27T17:45:33.430Z",
+      "updatedAt": "2026-02-27T17:45:33.430Z"
+    },
+    "remembering-conversations": {
+      "source": "obra/episodic-memory",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/obra/episodic-memory.git",
+      "skillPath": "skills/remembering-conversations/SKILL.md",
+      "skillFolderHash": "c39796fe24cf728f7c26687a68aecf1f611144f8",
+      "installedAt": "2026-02-27T17:45:38.357Z",
+      "updatedAt": "2026-02-27T17:45:38.357Z"
+    },
+    "pnpm": {
+      "source": "antfu/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/antfu/skills.git",
+      "skillPath": "skills/pnpm/SKILL.md",
+      "skillFolderHash": "3e2f92c74abae6e9d2e4fc45b5d73a7b307348c9",
+      "installedAt": "2026-02-27T17:45:44.042Z",
+      "updatedAt": "2026-02-27T17:45:44.042Z"
+    }
+  },
+  "dismissed": {}
+}

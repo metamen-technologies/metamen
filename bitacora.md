@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.2.1` — ESLint 9 flat config + security plugin  |
-| Próxima tarea           | `02.2.2` — (siguiente en secuencia Caja MVP-02)     |
+| Última tarea completada | `02.2.8` — Verificar pipeline de linting completo  |
+| Próxima tarea           | `02.2.9` — (siguiente en secuencia Caja MVP-02)    |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | `8b22a8a` chore(02.2.1): eslint security plugin    |
+| Último commit           | `95df28f` test(02): verify complete linting pipeline — 02.2.8 |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [██░░░░░░░░] 6/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 12/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 6 tareas completadas
+- **Total actual**: 12 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -151,8 +151,71 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Fecha**: 2026-03-03 05:00
 - **Archivos**: eslint.config.mjs, package.json, pnpm-lock.yaml
 - **Test**: N/A (tarea [CONFIG])
-- **Commit**: `8b22a8a`
+- **Commit**: `88af1a7`
 - **Notas**: eslint-plugin-security@4.0.0 instalado. Reglas activas: detect-eval-with-expression (error), detect-unsafe-regex (error), detect-non-literal-regexp/require/object-injection/timing-attacks (warn). @typescript-eslint/no-explicit-any en error. Glob patterns validados: **/*.ts, **/*.tsx, **/*.js, **/*.mjs con prefijo recursivo correcto. pnpm lint pasa sin errores. Nota: detect-eval-with-expression detecta eval(variable) no eval("literal") — comportamiento correcto por diseno.
+
+### [02.2.2] — Configurar Prettier con plugin Tailwind
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 05:20
+- **Archivos**: .prettierrc, package.json, pnpm-lock.yaml
+- **Test**: `pnpm format:check src/`, `pnpm prettier --find-config-path`, test temporal de orden de clases Tailwind
+- **Commit**: `239de12`
+- **Notas**: Se añadió Prettier + `prettier-plugin-tailwindcss`, scripts `format` y `format:check` en package.json.
+
+### [02.2.3] — Configurar .prettierignore
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 05:40
+- **Archivos**: .prettierignore
+- **Test**: checks de exclusión sobre `node_modules/**`, `pnpm-lock.yaml` y scope `src/**/*.ts`
+- **Commit**: `657d583`
+- **Notas**: Exclusiones de build, coverage, lockfile, migraciones y `.inngest/` registradas.
+
+### [02.2.4] — Configurar .editorconfig
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 05:58
+- **Archivos**: .editorconfig
+- **Test**: validación de propiedades globales + override Markdown + newline final
+- **Commit**: `deb6862`
+- **Notas**: Estandarizado `indent_size=2`, `end_of_line=lf`, `charset=utf-8`.
+
+### [02.2.5] — Instalar dependencias de linting
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 06:30
+- **Archivos**: package.json, pnpm-lock.yaml
+- **Test**: verificación Node de deps esperadas/prohibidas + `pnpm lint`
+- **Commit**: `caac799`
+- **Notas**: Instaladas en devDependencies: `@typescript-eslint/parser`, `@typescript-eslint/eslint-plugin`, `eslint-plugin-react-hooks`, `eslint-config-prettier`, `eslint-plugin-import-x`.
+
+### [02.2.6] — Configurar eslint-plugin-import-x para orden de imports
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 06:50
+- **Archivos**: eslint.config.mjs
+- **Test**: prueba funcional de `import-x/order` con archivos temporales
+- **Commit**: `820ec3b`
+- **Notas**: Se insertó bloque `Import ordering` con resolver `typescript/node`, `pathGroups` internos y reglas `no-duplicates`, `first`, `order`.
+
+### [02.2.7] — Configurar knip
+
+- **Estado**: ⏭️ SKIPPED (NO MVP)
+- **Fecha**: 2026-03-03
+- **Archivos**: (sin cambios)
+- **Test**: N/A
+- **Commit**: N/A
+- **Notas**: Excluida del alcance MVP por decisión de producto.
+
+### [02.2.8] — Verificar pipeline de linting completo
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 07:20
+- **Archivos**: src/app/layout.tsx, src/app/page.tsx, src/app/globals.css
+- **Test**: `pnpm lint`, `pnpm eslint "src/**/*.{ts,tsx}"`, `pnpm format:check`, test temporal `security/detect-eval-with-expression`
+- **Commit**: `95df28f`
+- **Notas**: Se aplicaron correcciones mínimas de lint/formato (sin cambios de lógica). Check 5 documentado como SKIPPED por 02.2.7 NO MVP.
 
 ---
 

@@ -1,0 +1,42 @@
+
+> metamen100@0.1.0 dev Z:\metamen\proyecto\metamen
+> next dev --turbopack
+
+   ▲ Next.js 15.5.12 (Turbopack)
+   - Local:        http://localhost:3000
+   - Network:      http://169.254.192.148:3000
+
+ ✓ Starting...
+ ✓ Ready in 1588ms
+ ○ Compiling / ...
+ ✓ Compiled / in 3.1s
+ GET / 200 in 3630ms
+ GET / 200 in 108ms
+ GET / 200 in 99ms
+ GET / 200 in 100ms
+ ⨯ [Error: ENOENT: no such file or directory, open 'Z:\metamen\proyecto\metamen\.next\server\app\page\app-build-manifest.json'] {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'Z:\\metamen\\proyecto\\metamen\\.next\\server\\app\\page\\app-build-manifest.json'
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 2s
+ ⨯ Error: Cannot find module '../chunks/ssr/[turbopack]_runtime.js'
+Require stack:
+- Z:\metamen\proyecto\metamen\.next\server\pages\_document.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\server\require.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\server\load-components.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\build\utils.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\build\swc\options.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\build\swc\index.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\build\next-config-ts\transpile-config.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\server\config.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\server\next.js
+- Z:\metamen\proyecto\metamen\node_modules\.pnpm\next@15.5.12_@babel+core@7._e7bd435f8b3dbff2ff63a7bc9d212e94\node_modules\next\dist\server\lib\start-server.js
+    at Object.<anonymous> (Z:\metamen\proyecto\metamen\.next\server\pages\_document.js:1:7) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 2615ms
+[?25h

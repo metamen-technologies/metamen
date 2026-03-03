@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm exec postcss src/app/globals.css --no-map -o /dev/null)",
+      "Bash(pnpm add -D postcss-cli)",
+      "Bash(pnpm add -Dw postcss-cli)"
+    ]
+  }
+}
