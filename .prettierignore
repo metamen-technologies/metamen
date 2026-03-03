@@ -1,0 +1,19 @@
+# Build & Dependencies
+node_modules
+.next
+dist
+
+# Coverage
+coverage
+
+# Lock files
+pnpm-lock.yaml
+
+# Minified files
+*.min.js
+
+# Supabase migrations (SQL generado, no formatear)
+supabase/migrations
+
+# Inngest
+.inngest/
