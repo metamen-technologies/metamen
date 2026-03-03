@@ -12,21 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                              |
-| ----------------------- | -------------------------------------------------- |
-| Fase actual             | MVP v1.0                                           |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.2.8` — Verificar pipeline de linting completo  |
-| Próxima tarea           | `02.2.9` — (siguiente en secuencia Caja MVP-02)    |
-| Bloqueadores            | Ninguno                                            |
-| Fecha inicio proyecto   | 2026-02-21                                         |
+| Campo                   | Valor                                                         |
+| ----------------------- | ------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                      |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                              |
+| Última tarea completada | `02.3.3` — Configurar pre-push hook                           |
+| Próxima tarea           | `02.3.4` — (siguiente en secuencia Caja MVP-02)               |
+| Bloqueadores            | Ninguno                                                       |
+| Fecha inicio proyecto   | 2026-02-21                                                    |
 | Último commit           | `95df28f` test(02): verify complete linting pipeline — 02.2.8 |
-| Branch                  | main                                               |
+| Branch                  | main                                                          |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 12/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 13/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -41,18 +41,18 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## TECH STACK CONFIGURADO
 
-| Servicio      | Status       | Notas                  |
-| ------------- | ------------ | ---------------------- |
+| Servicio      | Status         | Notas                |
+| ------------- | -------------- | -------------------- |
 | Next.js 15    | ✅ Configurado | 15.5.12 + App Router |
-| Supabase      | ⬜ Pendiente |                        |
-| Stripe        | ⬜ Pendiente |                        |
-| Gemini API    | ⬜ Pendiente |                        |
-| Resend        | ⬜ Pendiente |                        |
-| Upstash Redis | ⬜ Pendiente |                        |
-| Inngest       | ⬜ Pendiente |                        |
-| Vercel        | ⬜ Pendiente |                        |
-| Sentry        | ⬜ Pendiente |                        |
-| PostHog       | ⬜ Pendiente |                        |
+| Supabase      | ⬜ Pendiente   |                      |
+| Stripe        | ⬜ Pendiente   |                      |
+| Gemini API    | ⬜ Pendiente   |                      |
+| Resend        | ⬜ Pendiente   |                      |
+| Upstash Redis | ⬜ Pendiente   |                      |
+| Inngest       | ⬜ Pendiente   |                      |
+| Vercel        | ⬜ Pendiente   |                      |
+| Sentry        | ⬜ Pendiente   |                      |
+| PostHog       | ⬜ Pendiente   |                      |
 
 ## CREDENCIALES OBTENIDAS
 
@@ -98,13 +98,13 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 12 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 13 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
 - **Estado**: ✅ COMPLETADA
 - **Fecha**: 2026-03-02 19:00
-- **Archivos**: .gitignore, eslint.config.mjs, next.config.ts, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, postcss.config.mjs, src/app/layout.tsx, src/app/page.tsx, src/app/globals.css, tsconfig.json, public/*
+- **Archivos**: .gitignore, eslint.config.mjs, next.config.ts, package.json, pnpm-lock.yaml, pnpm-workspace.yaml, postcss.config.mjs, src/app/layout.tsx, src/app/page.tsx, src/app/globals.css, tsconfig.json, public/\*
 - **Test**: N/A (tarea [SETUP])
 - **Commit**: `bd26fae`
 - **Notas**: Scaffold inicial con Next.js 15 + React 19, Tailwind v4, ESLint flat config, Turbopack en `pnpm dev`.
@@ -152,7 +152,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Archivos**: eslint.config.mjs, package.json, pnpm-lock.yaml
 - **Test**: N/A (tarea [CONFIG])
 - **Commit**: `88af1a7`
-- **Notas**: eslint-plugin-security@4.0.0 instalado. Reglas activas: detect-eval-with-expression (error), detect-unsafe-regex (error), detect-non-literal-regexp/require/object-injection/timing-attacks (warn). @typescript-eslint/no-explicit-any en error. Glob patterns validados: **/*.ts, **/*.tsx, **/*.js, **/*.mjs con prefijo recursivo correcto. pnpm lint pasa sin errores. Nota: detect-eval-with-expression detecta eval(variable) no eval("literal") — comportamiento correcto por diseno.
+- **Notas**: eslint-plugin-security@4.0.0 instalado. Reglas activas: detect-eval-with-expression (error), detect-unsafe-regex (error), detect-non-literal-regexp/require/object-injection/timing-attacks (warn). @typescript-eslint/no-explicit-any en error. Glob patterns validados: **/\*.ts, **/_.tsx, \*\*/_.js, \*_/_.mjs con prefijo recursivo correcto. pnpm lint pasa sin errores. Nota: detect-eval-with-expression detecta eval(variable) no eval("literal") — comportamiento correcto por diseno.
 
 ### [02.2.2] — Configurar Prettier con plugin Tailwind
 
@@ -216,6 +216,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: `pnpm lint`, `pnpm eslint "src/**/*.{ts,tsx}"`, `pnpm format:check`, test temporal `security/detect-eval-with-expression`
 - **Commit**: `95df28f`
 - **Notas**: Se aplicaron correcciones mínimas de lint/formato (sin cambios de lógica). Check 5 documentado como SKIPPED por 02.2.7 NO MVP.
+
+### [02.3.3] — Configurar pre-push hook
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 10:15
+- **Archivos**: .husky/pre-push
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: PENDIENTE
+- **Notas**: Hook pre-push ejecuta `pnpm typecheck && pnpm test -- --passWithNoTests`. Ajuste: `--passWithNoTests` agregado porque no hay tests aun en el proyecto (vitest exit code 1 sin tests). El flag `--run` del prompt se omitio porque el script test ya incluye `vitest run`. Line endings corregidos a LF. typecheck redundante con pre-commit es intencional (defense in depth).
 
 ---
 
