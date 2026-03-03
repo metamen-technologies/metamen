@@ -1,26 +1,132 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * METAMEN100 Design System v2.0.0
+ * Fuente de verdad: 10_constantes_maestras §2
+ * Tailwind CSS v4 — config via @theme
+ */
+
+@theme {
+  /* ===== TIPOGRAFIA ===== */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+
+  /* ===== §2.1 FONDOS (Sistema de Elevacion) ===== */
+  --color-bg-base: #0A0A0A;
+  --color-bg-card: #1A1A1A;
+  --color-bg-elevated: #2D2D2D;
+
+  /* ===== §2.2 ACCENT — Sistema Dual ===== */
+  --color-accent-gold: #D4AF37;
+  --color-accent-gold-hover: #B8941F;
+  --color-accent-cta: #FF073A;
+  --color-accent-cta-hover: #DC143C;
+  --color-accent-active: #00E5FF;
+
+  /* ===== §2.3 ESTADOS SEMANTICOS ===== */
+  --color-error: #FF0000;
+  --color-success: #00FF88;
+  --color-warning: #FFB800;
+  --color-info: #00E5FF;
+
+  /* ===== §2.4 TEXTO ===== */
+  --color-text-primary: #FFFFFF;
+  --color-text-glow: #F8FFFF;
+  --color-text-secondary: #B0B0B0;
+  --color-text-disabled: #808080;
+
+  /* ===== §2.5 VECTORES (primario + secundario) ===== */
+  --color-vector-aura: #9B59B6;
+  --color-vector-aura-secondary: #E8D5F2;
+  --color-vector-jawline: #E74C3C;
+  --color-vector-jawline-secondary: #FADBD8;
+  --color-vector-wealth: #27AE60;
+  --color-vector-wealth-secondary: #D5F5E3;
+  --color-vector-physique: #E67E22;
+  --color-vector-physique-secondary: #FDEBD0;
+  --color-vector-social: #3498DB;
+  --color-vector-social-secondary: #D6EAF8;
+  --color-vector-env: #1ABC9C;
+  --color-vector-env-secondary: #D1F2EB;
+
+  /* ===== §2.6 NIVELES ===== */
+  --color-level-low: #95A5A6;
+  --color-level-mid: #8D6E63;
+  --color-level-high: #3498DB;
+  --color-level-elite: #D4AF37;
+  --color-level-god: #9B59B6;
+
+  /* ===== §2.7 RAREZA ===== */
+  --color-rarity-common: #95A5A6;
+  --color-rarity-rare: #3498DB;
+  --color-rarity-epic: #9B59B6;
+  --color-rarity-legendary: #D4AF37;
+
+  /* ===== ANIMATION TOKENS (solo valores, @keyframes van fuera) ===== */
+  --animate-level-up: level-up 0.6s ease-out;
+  --animate-vector-pulse: vector-pulse 1.5s ease-in-out infinite;
+  --animate-bitcoin-collect: bitcoin-collect 0.8s ease-out;
+  --animate-streak-fire: streak-fire 1s ease-in-out infinite;
+  --animate-death-fade: death-fade 2s ease-in forwards;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-glow: glow 2s ease-in-out infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ===== KEYFRAMES (fuera de @theme — son at-rules CSS estandar) ===== */
+
+@keyframes level-up {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes vector-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
 }
+
+@keyframes bitcoin-collect {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+}
+
+@keyframes streak-fire {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.3); }
+}
+
+@keyframes death-fade {
+  0% { opacity: 1; filter: saturate(1); }
+  100% { opacity: 0.3; filter: saturate(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+  50% { box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor; }
+}
+
+/* ===== BASE STYLES ===== */
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== ACCESSIBILITY ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

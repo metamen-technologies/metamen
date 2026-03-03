@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.1.3` — Configurar package.json completo        |
-| Próxima tarea           | `02.1.4` — Configurar TypeScript strict             |
+| Última tarea completada | `02.1.6` — Configurar Design System en globals.css |
+| Próxima tarea           | `02.1.7` — (siguiente en secuencia Caja MVP-02)     |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | `5c0ee2f` fix(02.1.3): add packages field...       |
+| Último commit           | `238fead` feat(02.1.6): configure design system    |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [██░░░░░░░░] 2/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [██░░░░░░░░] 3/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 2 tareas completadas
+- **Total actual**: 3 tareas completadas
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -117,6 +117,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [SETUP])
 - **Commit**: `b433092` (feat) + `5c0ee2f` (fix)
 - **Notas**: Configuración completa con 17 dependencias MVP y 15 devDependencies. Scripts añadidos: test, test:watch, test:coverage, clean, verify. Correcciones post-auditoría: campo `packages` en pnpm-workspace.yaml y em-dash en descripción.
+
+### [02.1.6] — Configurar Design System COMPLETO en globals.css (Tailwind v4)
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 00:00
+- **Archivos**: src/app/globals.css, src/app/layout.tsx, eslint.config.mjs
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `238fead`
+- **Notas**: Design system completo con 40+ tokens CSS (fondos, accents, estados, texto, vectores, niveles, rareza). 7 animaciones con @keyframes fuera de @theme. Fuentes Inter + JetBrains Mono via next/font. Corregido eslint.config.mjs (bug pre-existente: flat config intentaba spread de legacy config). postcss.config.mjs ya estaba correcto. Build, lint y typecheck pasan sin errores.
 
 ---
 
