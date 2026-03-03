@@ -16,17 +16,17 @@
 | ----------------------- | -------------------------------------------------- |
 | Fase actual             | MVP v1.0                                           |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                   |
-| Última tarea completada | `02.1.6` — Configurar Design System en globals.css |
-| Próxima tarea           | `02.1.7` — (siguiente en secuencia Caja MVP-02)     |
+| Última tarea completada | `02.1.10` — Verificar Turbopack en desarrollo      |
+| Próxima tarea           | `02.1.11` — (siguiente en secuencia Caja MVP-02)    |
 | Bloqueadores            | Ninguno                                            |
 | Fecha inicio proyecto   | 2026-02-21                                         |
-| Último commit           | `238fead` feat(02.1.6): configure design system    |
+| Último commit           | `34117d3` chore(02.1.10): verify turbopack         |
 | Branch                  | main                                               |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [██░░░░░░░░] 3/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [██░░░░░░░░] 4/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 3 tareas completadas
+- **Total actual**: 4 tareas completadas
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -127,11 +127,23 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Commit**: `238fead`
 - **Notas**: Design system completo con 40+ tokens CSS (fondos, accents, estados, texto, vectores, niveles, rareza). 7 animaciones con @keyframes fuera de @theme. Fuentes Inter + JetBrains Mono via next/font. Corregido eslint.config.mjs (bug pre-existente: flat config intentaba spread de legacy config). postcss.config.mjs ya estaba correcto. Build, lint y typecheck pasan sin errores.
 
+### [02.1.10] — Verificar Turbopack en desarrollo
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 01:30
+- **Archivos**: docs/turbopack-verification.md
+- **Test**: N/A (tarea [SETUP])
+- **Commit**: `34117d3`
+- **Notas**: Turbopack APROBADO. Cold start 1354ms (vs Webpack 1711ms, -21%). HMR 90ms (vs Webpack 305ms, -70%). Panic inicial resuelto eliminando archivo `nul` espurio (artefacto de Windows de validación PostCSS anterior). Sin incompatibilidades reales.
+
 ---
 
 ## ISSUES Y DEUDA TÉCNICA
 
-- Sin issues ni deuda técnica registrados.
+- **[DEUDA-DEP-001] Normalización de dependencias pendiente**
+- **Contexto**: El conteo real del repo no coincide con el conteo objetivo histórico de la caja (`PROD=23`, `DEV=15` vs `24/6` esperado en prompts antiguos).
+- **Impacto**: Puede generar falsos negativos en validaciones por conteo fijo, aunque `build` y auditoría crítica pasen.
+- **Acción pendiente**: Ejecutar una tarea dedicada de saneamiento de dependencias al cierre de la Caja MVP-02 (inventario, depuración de huérfanas y actualización del criterio de validación por baseline real).
 
 ---
 
