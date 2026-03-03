@@ -2,7 +2,7 @@
   "name": "metamen100",
   "version": "0.1.0",
   "private": true,
-  "description": "MetaMen100 - Sistema Operativo de Conducta para hombres",
+  "description": "MetaMen100 — Sistema Operativo de Conducta para hombres",
   "packageManager": "pnpm@9.15.0",
   "engines": {
     "node": ">=20.0.0",
