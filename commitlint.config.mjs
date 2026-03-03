@@ -1,8 +1,11 @@
 // commitlint.config.mjs
+// Configuración de commitlint para METAMEN100
+// Tipos: Conventional Commits
+// Scopes: Cajas (02-10) + Dominios de Constantes Maestras v2.0.0
 export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
-    // Types permitidos por el proyecto METAMEN100
+    // --- Tipos ---
     'type-enum': [
       2,
       'always',
@@ -20,12 +23,15 @@ export default {
         'revert',
       ],
     ],
-    // Scopes: caja numbers (02-10) + domain scopes de Constantes Maestras v2.0.0
+    'type-case': [2, 'always', 'lower-case'],
+    'type-empty': [2, 'never'],
+
+    // --- Scopes ---
     'scope-enum': [
       2,
       'always',
       [
-        // Caja numbers (estructura del proyecto)
+        // Caja scopes (numero de caja)
         '02',
         '03',
         '04',
@@ -35,6 +41,7 @@ export default {
         '08',
         '09',
         '10',
+
         // Domain scopes (Constantes Maestras v2.0.0)
         'auth',
         'avatar',
@@ -66,11 +73,15 @@ export default {
         'supabase',
       ],
     ],
-    // Scope es OPCIONAL — permite commits sin scope como "chore: update deps"
+    // Scope es OPCIONAL: nivel 0 = disabled (no falla si no hay scope)
     'scope-empty': [0],
-    // Body max line length desactivado para mensajes descriptivos
-    'body-max-line-length': [0],
-    // Footer max line length desactivado
-    'footer-max-line-length': [0],
+    'scope-case': [2, 'always', 'lower-case'],
+
+    // --- Subject ---
+    'subject-empty': [2, 'never'],
+    'subject-case': [2, 'always', ['lower-case', 'sentence-case']],
+
+    // --- Header ---
+    'header-max-length': [2, 'always', 100],
   },
 };
