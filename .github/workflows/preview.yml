@@ -1,0 +1,173 @@
+name: Preview Deployment Info
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: read
+
+jobs:
+  preview-info:
+    name: Preview Info
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build and capture bundle size
+        id: build
+        run: |
+          # Run Next.js build and capture output
+          pnpm build 2>&1 | tee build-output.txt
+          # Capture the Route summary table from Next.js build output
+          BUNDLE_REPORT=$(sed -n '/Route/,/^$/p' build-output.txt | head -40)
+          echo "bundle_report<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$BUNDLE_REPORT" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post preview info comment
+        uses: actions/github-script@v7
+        env:
+          BUNDLE_REPORT: ${{ steps.build.outputs.bundle_report }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var owner = context.repo.owner;
+            var repo = context.repo.repo;
+            var prNumber = context.payload.pull_request.number;
+            var sha = context.payload.pull_request.head.sha;
+            var bundleReport = process.env.BUNDLE_REPORT || '';
+
+            // Poll for deployment with status "success"
+            var maxAttempts = 30;
+            var delayMs = 10000;
+            var previewUrl = '';
+
+            for (var i = 0; i < maxAttempts; i++) {
+              core.info('Polling for deployment, attempt ' + (i + 1) + ' of ' + maxAttempts);
+
+              var deploymentsResult = await github.rest.repos.listDeployments({
+                owner: owner,
+                repo: repo,
+                sha: sha,
+                per_page: 5
+              });
+
+              var deployments = deploymentsResult.data;
+
+              for (var d = 0; d < deployments.length; d++) {
+                var deployment = deployments[d];
+                var statusesResult = await github.rest.repos.listDeploymentStatuses({
+                  owner: owner,
+                  repo: repo,
+                  deployment_id: deployment.id,
+                  per_page: 1
+                });
+
+                var statuses = statusesResult.data;
+                if (statuses.length > 0 && statuses[0].state === 'success') {
+                  previewUrl = statuses[0].environment_url || statuses[0].target_url || '';
+                  break;
+                }
+              }
+
+              if (previewUrl) {
+                core.info('Found preview URL: ' + previewUrl);
+                break;
+              }
+
+              if (i < maxAttempts - 1) {
+                await new Promise(function(resolve) {
+                  setTimeout(resolve, delayMs);
+                });
+              }
+            }
+
+            // Build comment body
+            var lines = [];
+            lines.push('<!-- metamen-preview-bot -->');
+            lines.push('## Preview Deployment');
+            lines.push('');
+
+            if (previewUrl) {
+              lines.push('| Item | Value |');
+              lines.push('|------|-------|');
+              lines.push('| **Preview URL** | ' + previewUrl + ' |');
+              lines.push('| **Commit** | `' + sha.substring(0, 7) + '` |');
+              lines.push('| **Status** | :white_check_mark: Ready |');
+            } else {
+              lines.push('> :warning: Preview deployment not found after ' + maxAttempts + ' attempts.');
+              lines.push('> Commit: `' + sha.substring(0, 7) + '`');
+            }
+
+            if (bundleReport) {
+              lines.push('');
+              lines.push('<details>');
+              lines.push('<summary>Bundle Size Report</summary>');
+              lines.push('');
+              lines.push('<pre>');
+              lines.push(bundleReport);
+              lines.push('</pre>');
+              lines.push('');
+              lines.push('</details>');
+            }
+
+            var body = lines.join('\n');
+
+            // Find existing bot comment (idempotent update)
+            var commentsResult = await github.rest.issues.listComments({
+              owner: owner,
+              repo: repo,
+              issue_number: prNumber,
+              per_page: 100
+            });
+
+            var botComment = null;
+            var comments = commentsResult.data;
+            for (var c = 0; c < comments.length; c++) {
+              if (comments[c].body && comments[c].body.indexOf('<!-- metamen-preview-bot -->') !== -1) {
+                botComment = comments[c];
+                break;
+              }
+            }
+
+            if (botComment) {
+              core.info('Updating existing comment ' + botComment.id);
+              await github.rest.issues.updateComment({
+                owner: owner,
+                repo: repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              core.info('Creating new comment on PR #' + prNumber);
+              await github.rest.issues.createComment({
+                owner: owner,
+                repo: repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
