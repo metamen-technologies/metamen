@@ -16,8 +16,8 @@
 | ----------------------- | ----------------------------------------------- |
 | Fase actual             | MVP v1.0                                        |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                |
-| Última tarea completada | `02.4.1` — Configurar CI workflow               |
-| Próxima tarea           | `02.4.2` — (siguiente en secuencia Caja MVP-02) |
+| Última tarea completada | `02.4.2` — Configurar Vitest para unit tests    |
+| Próxima tarea           | `02.4.3` — (siguiente en secuencia Caja MVP-02) |
 | Bloqueadores            | Ninguno                                         |
 | Fecha inicio proyecto   | 2026-02-21                                      |
 | Último commit           | `72cc93d` chore(02): add ci workflow — 02.4.1   |
@@ -26,7 +26,7 @@
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 15/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 16/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 15 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 16 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -234,6 +234,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] documentacion)
 - **Commit**: PENDIENTE
 - **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
+
+### [02.4.2] — Configurar Vitest para unit tests
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 19:40
+- **Archivos**: vitest.config.ts, tests/setup.ts, tests/unit/setup.test.ts, tsconfig.json
+- **Test**: tests/unit/setup.test.ts (2 passed, 0 failed)
+- **Commit**: PENDIENTE
+- **Notas**: Vitest 2.1.9 con jsdom, globals: true, v8 coverage (80% thresholds), pool: forks (maxForks: 2). Path aliases en array format para correcta prioridad (específicos antes de catch-all @/). Setup con @testing-library/jest-dom/vitest. Excluidos placeholder barrels de coverage (components, hooks, stores, actions index.ts). @vitest/coverage-v8@2.1.9 instalado (matching vitest).
 
 ### [02.4.1] — Configurar CI workflow
 
