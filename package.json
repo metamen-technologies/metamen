@@ -59,7 +59,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "inngest": "^3.0.0",
-    "lucide-react": "^0.469.0",
+    "lucide-react": "^0.576.0",
     "next": "~15.5.12",
     "posthog-js": "^1.357.1",
     "posthog-node": "^5.26.2",
