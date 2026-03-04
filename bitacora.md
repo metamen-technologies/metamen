@@ -20,7 +20,7 @@
 | Próxima tarea           | `02.4.3` — (siguiente en secuencia Caja MVP-02) |
 | Bloqueadores            | Ninguno                                         |
 | Fecha inicio proyecto   | 2026-02-21                                      |
-| Último commit           | `72cc93d` chore(02): add ci workflow — 02.4.1   |
+| Último commit           | `8de3e26` chore(02): configure vitest — 02.4.2  |
 | Branch                  | main                                            |
 
 ## MAPA DE PROGRESO
@@ -241,7 +241,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Fecha**: 2026-03-03 19:40
 - **Archivos**: vitest.config.ts, tests/setup.ts, tests/unit/setup.test.ts, tsconfig.json
 - **Test**: tests/unit/setup.test.ts (2 passed, 0 failed)
-- **Commit**: PENDIENTE
+- **Commit**: `8de3e26`
 - **Notas**: Vitest 2.1.9 con jsdom, globals: true, v8 coverage (80% thresholds), pool: forks (maxForks: 2). Path aliases en array format para correcta prioridad (específicos antes de catch-all @/). Setup con @testing-library/jest-dom/vitest. Excluidos placeholder barrels de coverage (components, hooks, stores, actions index.ts). @vitest/coverage-v8@2.1.9 instalado (matching vitest).
 
 ### [02.4.1] — Configurar CI workflow
