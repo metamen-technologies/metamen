@@ -12,16 +12,16 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                                                  |
-| ----------------------- | ---------------------------------------------------------------------- |
-| Fase actual             | MVP v1.0                                                               |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                                       |
-| Última tarea completada | `02.6.6` — Configurar Supabase CLI para desarrollo local               |
-| Próxima tarea           | (siguiente en secuencia Caja MVP-02)                                   |
-| Bloqueadores            | Ninguno                                                                |
-| Fecha inicio proyecto   | 2026-02-21                                                             |
-| Último commit           | `dc65b91` feat(supabase): configure supabase cli for local development |
-| Branch                  | main                                                                   |
+| Campo                   | Valor                                                                                         |
+| ----------------------- | --------------------------------------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                                                      |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                                                              |
+| Última tarea completada | `02.6.7` — Configurar Supabase Realtime para notificaciones                                   |
+| Próxima tarea           | (siguiente en secuencia Caja MVP-02)                                                          |
+| Bloqueadores            | Ninguno                                                                                       |
+| Fecha inicio proyecto   | 2026-02-21                                                                                    |
+| Último commit           | `19cd54c` feat(supabase): add realtime subscription for notifications, avatar_states, wallets |
+| Branch                  | main                                                                                          |
 
 ## MAPA DE PROGRESO
 
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 20 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 21 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -306,6 +306,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [SETUP])
 - **Commit**: `dc65b91`
 - **Notas**: supabase CLI v2.76.16 instalado como devDependency. supabase/config.toml configurado para MetaMen100 local dev: project.id=local-dev, PG15, API en :54321, Studio en :54323, auth con site_url=http://localhost:3000, redirect a /auth/callback, email confirmations deshabilitadas para dev, Google OAuth con env(). 9 scripts db:\* agregados: start/stop/status/reset/seed/migration:new/migration:up/types/diff. types generados a src/types/database.types.ts. Placeholder de tipos con Database interface, Json type, y helpers Tables/Inserts/Updates/Enums — 13 tablas documentadas en comentario. supabase/.gitignore creado por supabase init (ignora .branches/.temp, NO ignora config.toml ni migrations). gitkeep de functions/ y migrations/ intactos. pnpm add -D -w requirió flag -w por workspace root.
+
+### [02.6.7] — Configurar Supabase Realtime para notificaciones
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-04 13:30
+- **Archivos**: src/lib/supabase/realtime.types.ts (NUEVO), src/lib/supabase/realtime.ts (NUEVO), src/hooks/use-realtime.ts (NUEVO)
+- **Test**: N/A (tarea [TYPESCRIPT] — no testeable sin Supabase local + tablas CAJA_3)
+- **Commit**: `19cd54c`
+- **Notas**: Módulo Realtime completo con 3 archivos. realtime.types.ts: 10 tipos exportados (NotificationType, RealtimeNotification, RealtimeAvatarState, RealtimeWallet, RealtimeTable, OnNotification, OnAvatarStateChange, OnWalletChange, RealtimeSubscriptionConfig, UseRealtimeConfig, UseRealtimeReturn) — todos con campos readonly. realtime.ts: createRealtimeSubscription() con RealtimeCapableClient (duck-typing para evitar incompatibilidades del placeholder Database con exactOptionalPropertyTypes), canal único 'user-realtime-{userId}', 3 suscripciones postgres_changes con filtro user_id=eq.{userId}, manejo CHANNEL_ERROR/TIMED_OUT/CLOSED, cleanup via removeChannel. use-realtime.ts: hook 'use client' con configRef para callbacks frescos sin violar react-hooks/refs (sync en useEffect separado), getUser() async, suscripción mount-only, cleanup en return del effect. eslint-plugin-react-hooks@7 requirió eliminar sync de refs durante render — patrón alternativo: useRef(config) + useEffect sin deps para sincronizar.
 
 ---
 
