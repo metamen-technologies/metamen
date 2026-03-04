@@ -48,7 +48,7 @@
     "@upstash/redis": "^1.36.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "inngest": "^3.0.0",
+    "inngest": "^3.52.6",
     "lucide-react": "^0.469.0",
     "next": "~15.5.12",
     "posthog-js": "^1.357.1",
