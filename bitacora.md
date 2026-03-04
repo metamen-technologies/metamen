@@ -12,21 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                           |
-| ----------------------- | ----------------------------------------------- |
-| Fase actual             | MVP v1.0                                        |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                |
-| Última tarea completada | `02.4.8` — Bundle size check workflow (200kb)   |
-| Próxima tarea           | `02.4.9` — (siguiente en secuencia Caja MVP-02) |
-| Bloqueadores            | Ninguno                                         |
-| Fecha inicio proyecto   | 2026-02-21                                      |
-| Último commit           | `28f27ab` feat(02): bundle size check — 02.4.8  |
-| Branch                  | main                                            |
+| Campo                   | Valor                                    |
+| ----------------------- | ---------------------------------------- |
+| Fase actual             | MVP v1.0                                 |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**         |
+| Última tarea completada | `02.4.9` — Dependabot configuration      |
+| Próxima tarea           | (siguiente en secuencia Caja MVP-02)     |
+| Bloqueadores            | Ninguno                                  |
+| Fecha inicio proyecto   | 2026-02-21                               |
+| Último commit           | `e27f1ad` chore(02): dependabot — 02.4.9 |
+| Branch                  | main                                     |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 18/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 19/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -234,6 +234,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] documentacion)
 - **Commit**: PENDIENTE
 - **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
+
+### [02.4.9] — Configurar Dependabot
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-04 23:10
+- **Archivos**: .github/dependabot.yml (NUEVO)
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `e27f1ad`
+- **Notas**: Dependabot configurado con package-ecosystem npm, schedule weekly (lunes 06:00 CST). open-pull-requests-limit: 10. Label "dependencies" + commit prefix "chore". Ignora major bumps de next, react y react-dom (actualizaciones controladas manualmente). Minor/patch de todos los paquetes se procesan normalmente.
 
 ### [02.4.8] — Configurar bundle size check workflow (200KB limit)
 
