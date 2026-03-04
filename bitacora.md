@@ -16,17 +16,17 @@
 | ----------------------- | ----------------------------------------------- |
 | Fase actual             | MVP v1.0                                        |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                |
-| Última tarea completada | `02.4.7` — Production deploy + health endpoint  |
-| Próxima tarea           | `02.4.8` — (siguiente en secuencia Caja MVP-02) |
+| Última tarea completada | `02.4.8` — Bundle size check workflow (200kb)   |
+| Próxima tarea           | `02.4.9` — (siguiente en secuencia Caja MVP-02) |
 | Bloqueadores            | Ninguno                                         |
 | Fecha inicio proyecto   | 2026-02-21                                      |
-| Último commit           | `555c709` feat(02): production deploy — 02.4.7  |
+| Último commit           | `28f27ab` feat(02): bundle size check — 02.4.8  |
 | Branch                  | main                                            |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 17/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 18/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -234,6 +234,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] documentacion)
 - **Commit**: PENDIENTE
 - **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
+
+### [02.4.8] — Configurar bundle size check workflow (200KB limit)
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-04 23:00
+- **Archivos**: .github/workflows/bundle-size.yml (NUEVO)
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `28f27ab`
+- **Notas**: Workflow que compara bundle size del PR vs base (main). Parsea "First Load JS" de `next build`, toma el máximo. Límite 200KB = 204800 bytes. Falla con core.setFailed si excede el límite o si el build no genera tabla de rutas. Postea (o actualiza idempotentemente con marcador <!-- metamen-bundle-check -->) comentario en el PR con tabla comparativa (PR size, base size, delta absoluto y %, status, commit SHA). Solo actions aprobadas (checkout@v4 ×2, pnpm/action-setup@v2, setup-node@v4, github-script@v7). 5 expresiones GHA, solo secrets.GITHUB_TOKEN. JS con var/function()/+ concatenation. Checkout base usa clean: true.
 
 ### [02.4.7] — Configurar production deploy con smoke tests
 

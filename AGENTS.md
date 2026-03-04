@@ -10,14 +10,15 @@
 
 **MetaMen100** es un Sistema Operativo de Conducta con IA generativa y gamificación. Es una aplicación de auto-mejora masculina donde el usuario completa tareas diarias que afectan el estado de su avatar, el cual evoluciona visualmente según su comportamiento real.
 
-| Aspecto | Descripción |
-|---------|-------------|
-| **Tipo** | Aplicación web gamificada con avatares IA |
-| **Fase actual** | MVP v1.0 — Caja MVP-02: Infraestructura (6/96 tareas completadas) |
-| **Fecha inicio** | 2026-02-21 |
-| **North Star** | Usuario llega al Día 6 → ve cambio visual impactante → paga suscripción |
+| Aspecto          | Descripción                                                             |
+| ---------------- | ----------------------------------------------------------------------- |
+| **Tipo**         | Aplicación web gamificada con avatares IA                               |
+| **Fase actual**  | MVP v1.0 — Caja MVP-02: Infraestructura (15/96 tareas completadas)      |
+| **Fecha inicio** | 2026-02-21                                                              |
+| **North Star**   | Usuario llega al Día 6 → ve cambio visual impactante → paga suscripción |
 
 ### Concepto Central
+
 - **6 Vectores** representan dimensiones del desarrollo personal: AURA, JAWLINE, WEALTH, PHYSIQUE, SOCIAL, ENV
 - **17 Tareas** distribuidas en 5 arquetipos afectan estos vectores
 - **6 Personajes base**: El Rastas, El Guarro, El Pecas, El Greñas, El Güero, El Lic
@@ -29,25 +30,28 @@
 ## 2. Tech Stack
 
 ### Core
-| Tecnología | Versión | Uso |
-|------------|---------|-----|
-| Next.js | 15.5.12 | Framework (App Router, Server Actions, Server Components) |
-| React | 19.0.0 | UI |
-| TypeScript | 5.7.x | Ultra-strict (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`) |
-| Tailwind CSS | v4 | Styling (dark mode único, mobile-first) |
+
+| Tecnología   | Versión | Uso                                                                     |
+| ------------ | ------- | ----------------------------------------------------------------------- |
+| Next.js      | 15.5.12 | Framework (App Router, Server Actions, Server Components)               |
+| React        | 19.0.0  | UI                                                                      |
+| TypeScript   | 5.7.x   | Ultra-strict (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`) |
+| Tailwind CSS | v4      | Styling (dark mode único, mobile-first)                                 |
 
 ### Backend y Servicios
-| Servicio | Propósito |
-|----------|-----------|
-| Supabase | Auth + PostgreSQL + Storage + Realtime |
-| Stripe | Pagos (Checkout hosted, Customer Portal, 4 webhooks) |
-| Gemini 2.5 Flash | Generación de imágenes de avatar (pixel art) — único proveedor IA |
-| Upstash Redis | Rate limiting serverless (8 limiters) |
-| Inngest | Background jobs (5 funciones: Judgement Night, image gen, cleanup, wallet reset, degradation) |
-| Sentry | Error tracking (tracesSampleRate: 0.3) |
-| PostHog | Analytics + feature flags |
+
+| Servicio         | Propósito                                                                                     |
+| ---------------- | --------------------------------------------------------------------------------------------- |
+| Supabase         | Auth + PostgreSQL + Storage + Realtime                                                        |
+| Stripe           | Pagos (Checkout hosted, Customer Portal, 4 webhooks)                                          |
+| Gemini 2.5 Flash | Generación de imágenes de avatar (pixel art) — único proveedor IA                             |
+| Upstash Redis    | Rate limiting serverless (8 limiters)                                                         |
+| Inngest          | Background jobs (5 funciones: Judgement Night, image gen, cleanup, wallet reset, degradation) |
+| Sentry           | Error tracking (tracesSampleRate: 0.3)                                                        |
+| PostHog          | Analytics + feature flags                                                                     |
 
 ### Testing y Calidad
+
 - **Vitest**: Unit testing (threshold 80% coverage)
 - **Playwright**: E2E testing
 - **ESLint 9**: Flat config con plugin de seguridad
@@ -55,6 +59,7 @@
 - **Zod**: Validación de schemas en boundaries
 
 ### Package Manager
+
 - **pnpm 9.15.0+** obligatorio
 - **Node.js 20 LTS** obligatorio
 
@@ -73,53 +78,99 @@ metamen100/
 ├── src/
 │   ├── app/                      # Next.js App Router
 │   │   ├── (auth)/               # Rutas públicas: login, register, callback
-│   │   ├── (dashboard)/          # Rutas protegidas: dashboard, tasks, tools, shop, etc.
+│   │   │   ├── login/.gitkeep
+│   │   │   ├── register/.gitkeep
+│   │   │   └── callback/.gitkeep
+│   │   ├── (dashboard)/          # Rutas protegidas
+│   │   │   ├── dashboard/.gitkeep
+│   │   │   ├── avatar/.gitkeep
+│   │   │   ├── inventory/.gitkeep
+│   │   │   ├── settings/.gitkeep
+│   │   │   ├── shop/.gitkeep
+│   │   │   ├── tasks/.gitkeep
+│   │   │   └── tools/            # 9 herramientas: cold, facial, focus, gym, journal, kegel, library, meditation, voice
 │   │   ├── api/                  # API routes (webhooks, inngest, health, cron)
+│   │   │   ├── cron/judgement/.gitkeep
+│   │   │   ├── health/.gitkeep
+│   │   │   ├── inngest/.gitkeep
+│   │   │   └── webhooks/stripe/.gitkeep
 │   │   ├── layout.tsx            # Root layout
 │   │   ├── page.tsx              # Landing page
-│   │   └── globals.css           # Design system completo (Tailwind v4)
+│   │   ├── globals.css           # Design system completo (Tailwind v4)
+│   │   └── favicon.ico
 │   ├── components/               # UI Components (Layer 4)
-│   │   ├── ui/                   # Atoms: Button, Card, Input, Badge
-│   │   ├── layout/               # Shell, BottomNav, Header
-│   │   ├── dashboard/            # AvatarDisplay, VectorHUD, TaskList
-│   │   └── onboarding/           # QuizStep, CharacterSelect, Oath
+│   │   ├── ui/.gitkeep           # Atoms: Button, Card, Input, Badge
+│   │   ├── avatar/.gitkeep
+│   │   ├── charts/.gitkeep
+│   │   ├── economy/.gitkeep
+│   │   ├── health/.gitkeep
+│   │   ├── providers/.gitkeep
+│   │   ├── store/.gitkeep
+│   │   ├── tasks/.gitkeep
+│   │   ├── tools/.gitkeep
+│   │   ├── vectors/.gitkeep
+│   │   └── index.ts              # Barrel export
 │   ├── lib/
 │   │   ├── core/                 # MOTOR DEL JUEGO (100% funciones puras — Layer 1)
-│   │   │   ├── vectors/          # Cálculos de 6 vectores
-│   │   │   ├── levels/           # Sistema de 12 niveles
-│   │   │   ├── health/           # HP (5-14), muerte, resurrección
-│   │   │   ├── judgement/        # Judgement Night pipeline
-│   │   │   ├── economy/          # BTC, wallet, tienda
-│   │   │   ├── state-machines/   # Estados del avatar
-│   │   │   ├── validation/       # Cross-cutting validations
-│   │   │   ├── types/            # Result<T,E>, branded types
-│   │   │   └── utils/            # roundToDecimals, invariants
+│   │   │   ├── vectors/.gitkeep
+│   │   │   ├── levels/.gitkeep
+│   │   │   ├── health/.gitkeep
+│   │   │   ├── judgement/.gitkeep
+│   │   │   ├── economy/.gitkeep
+│   │   │   ├── state-machines/.gitkeep
+│   │   │   ├── validation/.gitkeep
+│   │   │   ├── types/.gitkeep
+│   │   │   ├── utils/.gitkeep
+│   │   │   └── index.ts          # Barrel export (placeholder)
 │   │   ├── server/
 │   │   │   └── actions/          # Server Actions (Layer 2 — únicos entry points de mutación)
-│   │   ├── supabase/             # client.ts, server.ts, admin.ts, middleware.ts
-│   │   ├── stripe/               # client.ts, config.ts
-│   │   ├── ai/                   # gemini.ts (NO replicate, NO DALL-E)
-│   │   ├── redis/                # client.ts, rate-limit.ts
-│   │   ├── inngest/              # client.ts, events.ts, functions/
-│   │   └── analytics/            # posthog.ts
+│   │   │       ├── auth/.gitkeep
+│   │   │       ├── avatar/.gitkeep
+│   │   │       ├── journal/.gitkeep
+│   │   │       ├── profile/.gitkeep
+│   │   │       ├── store/.gitkeep
+│   │   │       ├── tasks/.gitkeep
+│   │   │       ├── tools/.gitkeep
+│   │   │       ├── wallet/.gitkeep
+│   │   │       └── index.ts
+│   │   ├── supabase/.gitkeep
+│   │   ├── stripe/.gitkeep
+│   │   ├── ai/.gitkeep
+│   │   ├── redis/.gitkeep
+│   │   ├── inngest/.gitkeep
+│   │   └── analytics/.gitkeep
 │   ├── hooks/                    # Custom hooks ('use client' siempre)
+│   │   ├── .gitkeep
+│   │   └── index.ts
 │   ├── stores/                   # Zustand stores
+│   │   ├── .gitkeep
+│   │   └── index.ts
 │   ├── types/                    # Database types + custom types (Layer 0)
+│   │   ├── .gitkeep
+│   │   └── index.ts
 │   └── workers/                  # Background workers
+│       └── .gitkeep
 ├── supabase/
-│   ├── migrations/               # SQL migrations (13 tablas, 12 ENUMs)
-│   ├── seed.sql                  # Datos iniciales
-│   └── functions/                # Edge functions
+│   ├── migrations/.gitkeep
+│   └── functions/.gitkeep
 ├── tests/                        # Tests organizados por tipo
-│   ├── unit/                     # Vitest tests
-│   ├── integration/              # Integration tests
-│   └── e2e/                      # Playwright tests
+│   ├── setup.ts                  # Setup de Vitest
+│   ├── unit/
+│   │   ├── .gitkeep
+│   │   └── setup.test.ts         # Test básico de setup
+│   ├── integration/.gitkeep
+│   └── e2e/.gitkeep
 ├── public/                       # Static assets
-│   └── avatars/                  # 6 imágenes base de personajes
-└── scripts/                      # Utilidades: seed, reset, verify
+├── scripts/                      # Utilidades: seed, reset, verify
+└── .github/
+    ├── BRANCH_NAMING.md          # Convención de nombres de ramas
+    ├── ISSUE_TEMPLATE/
+    └── workflows/
+        └── ci.yml                # GitHub Actions CI
 ```
 
 ### Reglas de Organización
+
 - Cada directorio tiene `index.ts` como barrel export
 - `src/lib/core/` es **ZONA PROHIBIDA DE I/O** — solo funciones puras
 - `src/lib/server/actions/` es el **ÚNICO** lugar donde ocurren mutaciones (DB writes)
@@ -130,45 +181,50 @@ metamen100/
 ## 4. Constantes Críticas del Motor
 
 ### 6 Vectores
-| Vector | Peso | Rango | Color Primario | Color Secundario |
-|--------|------|-------|----------------|------------------|
-| AURA | 0.20 | 0.00-50.00 | `#9B59B6` | `#E8D5F2` |
-| JAWLINE | 0.15 | 0.00-50.00 | `#E74C3C` | `#FADBD8` |
-| WEALTH | 0.20 | 0.00-50.00 | `#27AE60` | `#D5F5E3` |
-| PHYSIQUE | 0.20 | 0.00-50.00 | `#E67E22` | `#FDEBD0` |
-| SOCIAL | 0.15 | 0.00-50.00 | `#3498DB` | `#D6EAF8` |
-| ENV | 0.10 | 1-10 | `#1ABC9C` | `#D1F2EB` |
+
+| Vector   | Peso | Rango      | Color Primario | Color Secundario |
+| -------- | ---- | ---------- | -------------- | ---------------- |
+| AURA     | 0.20 | 0.00-50.00 | `#9B59B6`      | `#E8D5F2`        |
+| JAWLINE  | 0.15 | 0.00-50.00 | `#E74C3C`      | `#FADBD8`        |
+| WEALTH   | 0.20 | 0.00-50.00 | `#27AE60`      | `#D5F5E3`        |
+| PHYSIQUE | 0.20 | 0.00-50.00 | `#E67E22`      | `#FDEBD0`        |
+| SOCIAL   | 0.15 | 0.00-50.00 | `#3498DB`      | `#D6EAF8`        |
+| ENV      | 0.10 | 1-10       | `#1ABC9C`      | `#D1F2EB`        |
 
 **Fórmula Overall Score**:  
 `AURA×0.20 + JAWLINE×0.15 + WEALTH×0.20 + PHYSIQUE×0.20 + SOCIAL×0.15 + (ENV×5)×0.10`
 
 ### 12 Niveles
+
 1. INDIGENTE → 2. REFUGIADO → 3. MANTENIDO → 4. ALUCÍN → 5. PEÓN → 6. HOMBRE COMÚN → 7. INFLUYENTE → 8. PUDIENTE → 9. MILLONARIO → 10. MAGNATE → 11. ÉLITE → 12. SEMI-DIOS
 
 - Niveles 1-10: Protocolo principal
 - Niveles 11-12: Post-game
 
 ### Health Points
+
 - **Inicial**: 5 HP
 - **Máximo base**: 10 HP
 - **Máximo expandido**: 14 HP (con bonus de niveles 3, 6, 9, 12)
 - **Regla**: Día ≥80% completación = +1 HP, Día <80% = -1 HP
 
 ### Economía BTC
+
 - **Daily Cap**: 2,000 BTC (NO 3,500)
 - **Wallet inicial**: 0 BTC
 - **Diminishing returns**: `max(0.25, 0.90^(rep-1))`
 - **Streak multiplier**: {0:×1.0, 1-7:×1.1, 8-14:×1.5, 15+:×2.5}
 
 ### 6 Personajes
-| ID | Key | Título | Tokens IA |
-|----|-----|--------|-----------|
-| 1 | EL_RASTAS | "El Gamer Olvidado" | brown dreadlocks, thick locks, round face, friendly eyes, warm brown skin |
-| 2 | EL_GUARRO | "El Cadenero Caído" | bald, shaved head, square jaw, small eyes, thick neck, tan skin |
-| 3 | EL_PECAS | "El Genio Quebrado" | curly red-brown hair, messy, freckles, thin face, sharp features, pale skin with freckles |
-| 4 | EL_GREÑAS | "El Rockero Olvidado" | balding with long hair in back, goatee, angular face, deep set eyes, weathered skin |
-| 5 | EL_GUERO | "El Galán Pasado" | blonde wavy hair, styled back, strong jaw, blue eyes, handsome, fair skin |
-| 6 | EL_LIC | "El Ejecutivo Reemplazado" | black hair, receding hairline, rectangular glasses, stubble, tired eyes, olive skin |
+
+| ID  | Key       | Título                     | Tokens IA                                                                                 |
+| --- | --------- | -------------------------- | ----------------------------------------------------------------------------------------- |
+| 1   | EL_RASTAS | "El Gamer Olvidado"        | brown dreadlocks, thick locks, round face, friendly eyes, warm brown skin                 |
+| 2   | EL_GUARRO | "El Cadenero Caído"        | bald, shaved head, square jaw, small eyes, thick neck, tan skin                           |
+| 3   | EL_PECAS  | "El Genio Quebrado"        | curly red-brown hair, messy, freckles, thin face, sharp features, pale skin with freckles |
+| 4   | EL_GREÑAS | "El Rockero Olvidado"      | balding with long hair in back, goatee, angular face, deep set eyes, weathered skin       |
+| 5   | EL_GUERO  | "El Galán Pasado"          | blonde wavy hair, styled back, strong jaw, blue eyes, handsome, fair skin                 |
+| 6   | EL_LIC    | "El Ejecutivo Reemplazado" | black hair, receding hairline, rectangular glasses, stubble, tired eyes, olive skin       |
 
 ---
 
@@ -200,6 +256,7 @@ pnpm verify           # Pipeline completo: lint + typecheck + test
 ```
 
 ### Scripts planificados (Cajas futuras)
+
 ```bash
 pnpm db:start         # Supabase local
 pnpm db:stop          # Detener Supabase
@@ -218,6 +275,7 @@ pnpm test:smoke       # Smoke tests locales
 ## 6. Guías de Estilo de Código
 
 ### TypeScript — Ultra-Strict
+
 ```typescript
 // CERO 'any' - Usar unknown + type narrowing
 const handleUnknown = (value: unknown): string => {
@@ -236,6 +294,7 @@ const calculateVectors = (input: Input): Result<VectorState, Error> => {
 ```
 
 ### Next.js — Server Components por Defecto
+
 ```typescript
 // ✅ CORRECTO: Server Component con data fetching
 // src/app/dashboard/page.tsx
@@ -251,11 +310,11 @@ export default async function DashboardPage() {
 export async function completeTask(taskId: string) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { success: false, error: 'Unauthorized' };
-  
+
   // Validación con Zod PRIMERO
   const parsed = taskIdSchema.safeParse(taskId);
   if (!parsed.success) return { success: false, error: 'Invalid taskId' };
-  
+
   // Mutación...
   revalidatePath('/dashboard');
   return { success: true };
@@ -263,16 +322,18 @@ export async function completeTask(taskId: string) {
 ```
 
 ### Naming Conventions
-| Tipo | Formato | Ejemplo |
-|------|---------|---------|
-| Archivos | kebab-case | `avatar-state.ts` |
-| Componentes | PascalCase | `TaskCard.tsx` |
-| Funciones | camelCase | `calculateOverallScore` |
-| Constantes | UPPER_SNAKE_CASE | `VECTOR_WEIGHTS` |
-| Tipos/Interfaces | PascalCase | `VectorState` |
-| Enums | PascalCase (valores UPPER_SNAKE) | `VectorName.AURA` |
+
+| Tipo             | Formato                          | Ejemplo                 |
+| ---------------- | -------------------------------- | ----------------------- |
+| Archivos         | kebab-case                       | `avatar-state.ts`       |
+| Componentes      | PascalCase                       | `TaskCard.tsx`          |
+| Funciones        | camelCase                        | `calculateOverallScore` |
+| Constantes       | UPPER_SNAKE_CASE                 | `VECTOR_WEIGHTS`        |
+| Tipos/Interfaces | PascalCase                       | `VectorState`           |
+| Enums            | PascalCase (valores UPPER_SNAKE) | `VectorName.AURA`       |
 
 ### Imports — Siempre Alias
+
 ```typescript
 // ✅ CORRECTO
 import { calculateVector } from '@/lib/core/vectors';
@@ -284,6 +345,7 @@ import { calculateVector } from '../../../lib/core/vectors';
 ```
 
 ### Path Aliases (tsconfig.json)
+
 ```json
 {
   "@/*": ["./src/*"],
@@ -298,34 +360,37 @@ import { calculateVector } from '../../../lib/core/vectors';
 }
 ```
 
-### Design System — Colores Oficiales
+### Design System — Colores Oficiales (Tailwind v4)
+
 ```css
-/* Elevación */
---color-bg-base: #0A0A0A        /* Fondo principal */
---color-bg-card: #1A1A1A        /* Superficies */
---color-bg-elevated: #2D2D2D    /* Cards/panels */
+/* Archivo: src/app/globals.css */
 
-/* Accent Dual */
---color-accent-gold: #D4AF37
---color-accent-cta: #FF073A      /* Call-to-action */
---color-accent-active: #00E5FF
-
-/* Semánticos */
---color-error: #FF0000
---color-success: #00FF88
---color-warning: #FFB800
---color-info: #00E5FF
+/* Fondos (Sistema de Elevación) */
+--color-bg-base: #0a0a0a /* Fondo principal */ --color-bg-card: #1a1a1a /* Superficies */
+  --color-bg-elevated: #2d2d2d /* Cards/panels */ /* Accent Dual */ --color-accent-gold: #d4af37
+  --color-accent-gold-hover: #b8941f --color-accent-cta: #ff073a /* Call-to-action */
+  --color-accent-active: #00e5ff /* Semánticos */ --color-error: #ff0000 --color-success: #00ff88
+  --color-warning: #ffb800 --color-info: #00e5ff /* Texto */ --color-text-primary: #ffffff
+  --color-text-glow: #f8ffff --color-text-secondary: #b0b0b0 --color-text-disabled: #808080;
 ```
+
+### Tipografía
+
+- **Sans**: Inter (variable font)
+- **Mono**: JetBrains Mono (variable font)
+- Configuradas en `src/app/layout.tsx` via `next/font/google`
 
 ---
 
 ## 7. Estrategia de Testing
 
 ### Unit Tests (Vitest)
+
 - Ubicación: Junto al archivo bajo test (`file.test.ts`) o en `tests/unit/`
-- Cobertura mínima: 80%
+- Cobertura mínima: 80% (statements, branches, functions, lines)
 - Enfoque: Funciones puras en `src/lib/core/`
 - NO retry para tests flaky
+- Environment: jsdom
 
 ```typescript
 // src/lib/core/vectors/calculations.test.ts
@@ -337,9 +402,9 @@ describe('calculateVectorChange', () => {
       currentLevel: 25,
       repetition: 1,
     });
-    expect(result.up).toBe(0.50);
+    expect(result.up).toBe(0.5);
   });
-  
+
   it('should apply diminishing returns after first repetition', () => {
     // max(0.25, 0.90^(rep-1))
   });
@@ -347,17 +412,21 @@ describe('calculateVectorChange', () => {
 ```
 
 ### Integration Tests
+
 - Supabase local con datos de seed
 - Verificar funciones PostgreSQL: `fn_complete_task_transaction`, `fn_process_judgement_night`
 
 ### E2E Tests (Playwright)
+
 - Flujos críticos: registro → onboarding → completar tarea → ver vectores
+- Ubicación: `tests/e2e/`
 
 ---
 
 ## 8. Convenciones de Commits
 
 **Conventional Commits obligatorio**:
+
 ```
 tipo(ID_TAREA): descripción breve
 
@@ -372,48 +441,93 @@ Tipos permitidos: `feat`, `fix`, `refactor`, `test`, `chore`, `docs`, `perf`, `b
 Scopes permitidos:  
 `auth`, `avatar`, `tasks`, `vectors`, `economy`, `ui`, `db`, `api`, `aura`, `jawline`, `wealth`, `physique`, `social`, `env`, `tools`, `inngest`, `payments`, `images`, `notifications`, `store`, `levels`, `health`, `redis`, `stripe`, `gemini`, `posthog`, `sentry`, `supabase`
 
+### Git Hooks (Husky)
+
+| Hook       | Comando                                            |
+| ---------- | -------------------------------------------------- |
+| pre-commit | `pnpm lint-staged`                                 |
+| commit-msg | `pnpm exec commitlint --edit $1`                   |
+| pre-push   | `pnpm typecheck && pnpm test -- --passWithNoTests` |
+
 ---
 
 ## 9. Seguridad
 
 ### Variables de Entorno (17 variables)
-| Variable | Tipo | Servicio |
-|----------|------|----------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Client | Supabase |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Client | Supabase |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server | Supabase |
-| `STRIPE_SECRET_KEY` | Server | Stripe |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Client | Stripe |
-| `STRIPE_WEBHOOK_SECRET` | Server | Stripe |
-| `GEMINI_API_KEY` | Server | Gemini |
-| `UPSTASH_REDIS_REST_URL` | Server | Upstash |
-| `UPSTASH_REDIS_REST_TOKEN` | Server | Upstash |
-| `INNGEST_EVENT_KEY` | Server | Inngest |
-| `INNGEST_SIGNING_KEY` | Server | Inngest |
-| `SENTRY_DSN` | Server | Sentry |
-| `NEXT_PUBLIC_POSTHOG_KEY` | Client | PostHog |
-| `NEXT_PUBLIC_POSTHOG_HOST` | Client | PostHog |
-| `NEXT_PUBLIC_APP_URL` | Client | App |
+
+| Variable                             | Tipo   | Servicio |
+| ------------------------------------ | ------ | -------- |
+| `NEXT_PUBLIC_SUPABASE_URL`           | Client | Supabase |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Client | Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY`          | Server | Supabase |
+| `STRIPE_SECRET_KEY`                  | Server | Stripe   |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Client | Stripe   |
+| `STRIPE_WEBHOOK_SECRET`              | Server | Stripe   |
+| `GEMINI_API_KEY`                     | Server | Gemini   |
+| `UPSTASH_REDIS_REST_URL`             | Server | Upstash  |
+| `UPSTASH_REDIS_REST_TOKEN`           | Server | Upstash  |
+| `INNGEST_EVENT_KEY`                  | Server | Inngest  |
+| `INNGEST_SIGNING_KEY`                | Server | Inngest  |
+| `SENTRY_DSN`                         | Server | Sentry   |
+| `NEXT_PUBLIC_POSTHOG_KEY`            | Client | PostHog  |
+| `NEXT_PUBLIC_POSTHOG_HOST`           | Client | PostHog  |
+| `NEXT_PUBLIC_APP_URL`                | Client | App      |
 
 ### Rate Limits
-| Endpoint | Límite | Key |
-|----------|--------|-----|
-| Login | 5/hora | IP+email |
-| Register | 3/hora | IP |
-| Password Reset | 3/hora | IP+email |
-| Complete Task | 50/hora | user_id |
-| Read Tasks | 100/min | user_id |
-| Store Purchase | 10/min | user_id |
+
+| Endpoint       | Límite  | Key      |
+| -------------- | ------- | -------- |
+| Login          | 5/hora  | IP+email |
+| Register       | 3/hora  | IP       |
+| Password Reset | 3/hora  | IP+email |
+| Complete Task  | 50/hora | user_id  |
+| Read Tasks     | 100/min | user_id  |
+| Store Purchase | 10/min  | user_id  |
 
 ### CSP y Headers de Seguridad (next.config.ts)
+
 - CSP completo configurado
-- HSTS: 2 años
+- HSTS: 2 años (max-age=63072000)
 - X-Frame-Options: DENY
 - Permissions-Policy: sin camera/microphone
+- X-Content-Type-Options: nosniff
+- Referrer-Policy: strict-origin-when-cross-origin
 
 ---
 
-## 10. Proceso de Desarrollo
+## 10. CI/CD
+
+### GitHub Actions (.github/workflows/ci.yml)
+
+4 jobs paralelos ejecutados en cada push/PR a main:
+
+1. **lint**: ESLint check
+2. **type-check**: TypeScript --noEmit
+3. **unit-test**: Vitest con --passWithNoTests
+4. **build**: Next.js build con cache de .next
+
+Configuración:
+
+- Node.js 20
+- pnpm 9.15.0
+- Timeout: 15 minutos por job
+- Concurrency: cancel-in-progress para evitar builds redundantes
+
+### Branch Naming Convention
+
+Formato: `{type}/{caja}.{subcaja}/{description}`
+
+Ejemplos válidos:
+
+- `feat/02.6/inngest-setup`
+- `fix/04.1/vector-clamp`
+- `test/04.2/vector-calculations`
+
+Ver archivo: `.github/BRANCH_NAMING.md`
+
+---
+
+## 11. Proceso de Desarrollo
 
 ### Workflow por Tarea
 
@@ -429,52 +543,60 @@ PASO 8 — PUSH: `git push origin main`
 ```
 
 ### Archivos de Referencia Obligatorios
+
 1. **CLAUDE.md** — Reglas absolutas y workflow
 2. **BITACORA.md** — Estado actual y progreso
 3. **docs/cajas/caja-mvp-02.md.md** — Tareas de infraestructura (96 tareas)
 
 ### Errores Comunes — PROHIBIDOS
-| Error | Corrección |
-|-------|------------|
-| Usar `any` | Usar `unknown` + type guard |
-| `useEffect` para fetch | Usar Server Component con `async` |
-| API route para CRUD | Usar Server Action en `src/lib/server/actions/` |
-| Import circular en `lib/core` | Respetar capas: Layer N solo importa ≤ N-1 |
-| `throw` en función pura | Retornar `err()` con Result monad |
-| Generar imagen con 0% completion | Verificar `completion > 0` antes de encolar |
-| Commit sin ID de tarea | Formato: `feat(02.1.1): descripción` |
-| Olvidar actualizar BITACORA.md | SIEMPRE actualizar después de cada tarea |
+
+| Error                            | Corrección                                      |
+| -------------------------------- | ----------------------------------------------- |
+| Usar `any`                       | Usar `unknown` + type guard                     |
+| `useEffect` para fetch           | Usar Server Component con `async`               |
+| API route para CRUD              | Usar Server Action en `src/lib/server/actions/` |
+| Import circular en `lib/core`    | Respetar capas: Layer N solo importa ≤ N-1      |
+| `throw` en función pura          | Retornar `err()` con Result monad               |
+| Generar imagen con 0% completion | Verificar `completion > 0` antes de encolar     |
+| Commit sin ID de tarea           | Formato: `feat(02.1.1): descripción`            |
+| Olvidar actualizar BITACORA.md   | SIEMPRE actualizar después de cada tarea        |
 
 ---
 
-## 11. Estado Actual del Proyecto
+## 12. Estado Actual del Proyecto
 
-### Última tarea completada: `02.2.1`
-- ESLint 9 flat config con plugin de seguridad
-- Commit: `8b22a8a`
+### Última tarea completada: `02.4.1`
+
+- CI workflow con 4 jobs paralelos
+- Commit: `72cc93d`
 
 ### Tech Stack Configurado
-| Servicio | Status |
-|----------|--------|
-| Next.js 15 | ✅ Configurado (15.5.12 + App Router + Turbopack) |
-| TypeScript | ✅ Ultra-strict configurado |
-| Tailwind CSS v4 | ✅ Design system completo implementado |
-| ESLint 9 | ✅ Flat config + security plugin |
-| Prettier | ✅ Configurado con plugin Tailwind |
-| Supabase | ⬜ Pendiente |
-| Stripe | ⬜ Pendiente |
-| Gemini API | ⬜ Pendiente |
-| Upstash Redis | ⬜ Pendiente |
-| Inngest | ⬜ Pendiente |
-| Sentry | ⬜ Pendiente |
-| PostHog | ⬜ Pendiente |
+
+| Servicio        | Status                                            |
+| --------------- | ------------------------------------------------- |
+| Next.js 15      | ✅ Configurado (15.5.12 + App Router + Turbopack) |
+| TypeScript      | ✅ Ultra-strict configurado                       |
+| Tailwind CSS v4 | ✅ Design system completo implementado            |
+| ESLint 9        | ✅ Flat config + security plugin                  |
+| Prettier        | ✅ Configurado con plugin Tailwind                |
+| Vitest          | ✅ Configurado con cobertura 80%                  |
+| Husky           | ✅ Git hooks configurados                         |
+| CI/CD           | ✅ GitHub Actions workflow                        |
+| Supabase        | ⬜ Pendiente                                      |
+| Stripe          | ⬜ Pendiente                                      |
+| Gemini API      | ⬜ Pendiente                                      |
+| Upstash Redis   | ⬜ Pendiente                                      |
+| Inngest         | ⬜ Pendiente                                      |
+| Sentry          | ⬜ Pendiente                                      |
+| PostHog         | ⬜ Pendiente                                      |
 
 ### Estructura de carpetas: ✅ Creada
+
 Todas las carpetas base están creadas con `.gitkeep` donde es necesario. Los barrel exports (`index.ts`) están configurados en cada directorio principal.
 
 ---
 
-## 12. Notas para Agentes
+## 13. Notas para Agentes
 
 1. **Este proyecto está en fase inicial**. La CAJA MVP-02 (Infraestructura) tiene 96 tareas y es el foco actual.
 
@@ -499,7 +621,9 @@ Todas las carpetas base están creadas con `.gitkeep` donde es necesario. Los ba
 
 10. **12 niveles** (10 protocolo + 2 post-game), no 10.
 
+11. **El archivo de caja tiene doble extensión**: `caja-mvp-02.md.md` (no es un error).
+
 ---
 
-*Documento actualizado: 2026-03-03*  
-*Basado en exploración real del codebase*
+_Documento actualizado: 2026-03-03_  
+_Basado en exploración real del codebase_
