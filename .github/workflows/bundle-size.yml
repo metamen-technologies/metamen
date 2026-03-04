@@ -1,0 +1,216 @@
+name: Bundle Size Check
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: bundle-size-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  bundle-check:
+    name: Bundle Size Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies (PR)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build PR branch and capture bundle size
+        id: build-pr
+        run: |
+          # Build and capture output
+          pnpm build 2>&1 | tee pr-build-output.txt || true
+          # Extract all "First Load JS" values (lines ending in kB from the route table)
+          # This captures both route-level First Load JS and the shared chunk line.
+          # The max will always be a route (since First Load JS = route size + shared).
+          FIRST_LOAD_VALUES=$(grep -oP '[\\d.]+\\s*kB$' pr-build-output.txt | grep -oP '[\\d.]+' || echo "0")
+          # Find the maximum First Load JS value
+          MAX_SIZE=$(echo "$FIRST_LOAD_VALUES" | sort -rn | head -1)
+          # Validate that build produced output — fail explicitly if not
+          if [ -z "$MAX_SIZE" ] || [ "$MAX_SIZE" = "0" ]; then
+            echo "ERROR: Build did not produce bundle size output. Check build logs above."
+            echo "total_size=0" >> "$GITHUB_OUTPUT"
+            echo "total_size_kb=0" >> "$GITHUB_OUTPUT"
+            echo "build_failed=true" >> "$GITHUB_OUTPUT"
+            echo "bundle_detail<<EOF" >> "$GITHUB_OUTPUT"
+            echo "Build failed or produced no route table output." >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # bc is required for float arithmetic (available on ubuntu-latest)
+          TOTAL_BYTES=$(echo "$MAX_SIZE * 1024" | bc | cut -d'.' -f1)
+          echo "total_size=$TOTAL_BYTES" >> "$GITHUB_OUTPUT"
+          echo "total_size_kb=$MAX_SIZE" >> "$GITHUB_OUTPUT"
+          echo "build_failed=false" >> "$GITHUB_OUTPUT"
+          # Capture detailed route table for the comment
+          BUNDLE_DETAIL=$(sed -n '/Route.*Size.*First Load/,/^$/p' pr-build-output.txt | head -30)
+          echo "bundle_detail<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$BUNDLE_DETAIL" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "PR max First Load JS: ${MAX_SIZE}kB (${TOTAL_BYTES} bytes)"
+
+      - name: Checkout base branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          clean: true
+
+      - name: Install dependencies (base)
+        run: pnpm install --frozen-lockfile
+
+      - name: Build base branch and capture bundle size
+        id: build-base
+        run: |
+          # Build base branch and capture output
+          pnpm build 2>&1 | tee base-build-output.txt || true
+          # Extract all "First Load JS" values
+          FIRST_LOAD_VALUES=$(grep -oP '[\\d.]+\\s*kB$' base-build-output.txt | grep -oP '[\\d.]+' || echo "0")
+          # Find the maximum First Load JS value
+          MAX_SIZE=$(echo "$FIRST_LOAD_VALUES" | sort -rn | head -1)
+          if [ -z "$MAX_SIZE" ] || [ "$MAX_SIZE" = "0" ]; then
+            echo "WARNING: Base branch build did not produce bundle size output."
+            echo "total_size=0" >> "$GITHUB_OUTPUT"
+            echo "total_size_kb=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # bc is required for float arithmetic (available on ubuntu-latest)
+          TOTAL_BYTES=$(echo "$MAX_SIZE * 1024" | bc | cut -d'.' -f1)
+          echo "total_size=$TOTAL_BYTES" >> "$GITHUB_OUTPUT"
+          echo "total_size_kb=$MAX_SIZE" >> "$GITHUB_OUTPUT"
+          echo "Base max First Load JS: ${MAX_SIZE}kB (${TOTAL_BYTES} bytes)"
+
+      - name: Compare and comment
+        uses: actions/github-script@v7
+        env:
+          PR_SIZE: ${{ steps.build-pr.outputs.total_size }}
+          BASE_SIZE: ${{ steps.build-base.outputs.total_size }}
+          BUNDLE_DETAIL: ${{ steps.build-pr.outputs.bundle_detail }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var prSize = parseInt(process.env.PR_SIZE || '0', 10);
+            var baseSize = parseInt(process.env.BASE_SIZE || '0', 10);
+            var bundleDetail = process.env.BUNDLE_DETAIL || '';
+            var prNumber = context.payload.pull_request.number;
+            var owner = context.repo.owner;
+            var repo = context.repo.repo;
+            var sha = context.payload.pull_request.head.sha;
+
+            // Limit: 200KB = 204800 bytes
+            var LIMIT_BYTES = 204800;
+            var LIMIT_KB = 200;
+
+            // Check if PR build failed (reported 0 bytes with build_failed flag)
+            var buildFailed = prSize === 0 && bundleDetail.indexOf('Build failed') !== -1;
+
+            // Calculate delta
+            var delta = prSize - baseSize;
+            var deltaKb = (delta / 1024).toFixed(2);
+            var prKb = (prSize / 1024).toFixed(2);
+            var baseKb = (baseSize / 1024).toFixed(2);
+            var deltaPercent = baseSize > 0 ? ((delta / baseSize) * 100).toFixed(2) : 'N/A';
+
+            var exceeds = prSize > LIMIT_BYTES;
+            var statusEmoji = buildFailed ? ':x:' : (exceeds ? ':x:' : ':white_check_mark:');
+            var statusText = buildFailed ? 'FAIL — PR build failed (no bundle output)' : (exceeds ? 'FAIL — Exceeds ' + LIMIT_KB + 'KB limit' : 'PASS');
+            var deltaEmoji = delta > 0 ? ':chart_with_upwards_trend:' : (delta < 0 ? ':chart_with_downwards_trend:' : ':left_right_arrow:');
+            var deltaSign = delta > 0 ? '+' : '';
+
+            // Build comment
+            var lines = [];
+            lines.push('<!-- metamen-bundle-check -->');
+            lines.push('## ' + statusEmoji + ' Bundle Size Check');
+            lines.push('');
+            lines.push('| Metric | Value |');
+            lines.push('|--------|-------|');
+            lines.push('| **PR Bundle (max First Load JS)** | ' + prKb + ' kB |');
+            lines.push('| **Base Bundle (main)** | ' + baseKb + ' kB |');
+            lines.push('| **Delta** | ' + deltaEmoji + ' ' + deltaSign + deltaKb + ' kB (' + deltaSign + deltaPercent + '%) |');
+            lines.push('| **Limit** | ' + LIMIT_KB + ' kB |');
+            lines.push('| **Status** | ' + statusText + ' |');
+            lines.push('| **Commit** | `' + sha.substring(0, 7) + '` |');
+
+            if (bundleDetail) {
+              lines.push('');
+              lines.push('<details>');
+              lines.push('<summary>Route Details (PR branch)</summary>');
+              lines.push('');
+              lines.push('<pre>');
+              lines.push(bundleDetail);
+              lines.push('</pre>');
+              lines.push('');
+              lines.push('</details>');
+            }
+
+            if (buildFailed) {
+              lines.push('');
+              lines.push('> :warning: **El build del PR fallo y no genero la tabla de rutas.** Revisa los logs del build para identificar el error de compilacion.');
+            } else if (exceeds) {
+              lines.push('');
+              lines.push('> :warning: **El bundle excede el limite de ' + LIMIT_KB + 'kB.** Revisa imports innecesarios, usa dynamic imports, o verifica que no se esten importando librerias completas.');
+            }
+
+            var body = lines.join('\\n');
+
+            // Find existing bot comment (idempotent update)
+            var commentsResult = await github.rest.issues.listComments({
+              owner: owner,
+              repo: repo,
+              issue_number: prNumber,
+              per_page: 100
+            });
+
+            var botComment = null;
+            var comments = commentsResult.data;
+            for (var c = 0; c < comments.length; c++) {
+              if (comments[c].body && comments[c].body.indexOf('<!-- metamen-bundle-check -->') !== -1) {
+                botComment = comments[c];
+                break;
+              }
+            }
+
+            if (botComment) {
+              core.info('Updating existing comment ' + botComment.id);
+              await github.rest.issues.updateComment({
+                owner: owner,
+                repo: repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              core.info('Creating new comment on PR #' + prNumber);
+              await github.rest.issues.createComment({
+                owner: owner,
+                repo: repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
+
+            // Fail the workflow if bundle exceeds limit OR build failed
+            if (buildFailed) {
+              core.setFailed('PR build failed — no bundle size output produced');
+            } else if (exceeds) {
+              core.setFailed('Bundle size ' + prKb + 'kB exceeds limit of ' + LIMIT_KB + 'kB');
+            }
