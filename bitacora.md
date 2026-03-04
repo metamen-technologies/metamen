@@ -16,17 +16,17 @@
 | ----------------------- | ----------------------------------------------- |
 | Fase actual             | MVP v1.0                                        |
 | Caja en curso           | **CAJA MVP-02: Infraestructura**                |
-| Última tarea completada | `02.4.2` — Configurar Vitest para unit tests    |
-| Próxima tarea           | `02.4.3` — (siguiente en secuencia Caja MVP-02) |
+| Última tarea completada | `02.4.7` — Production deploy + health endpoint  |
+| Próxima tarea           | `02.4.8` — (siguiente en secuencia Caja MVP-02) |
 | Bloqueadores            | Ninguno                                         |
 | Fecha inicio proyecto   | 2026-02-21                                      |
-| Último commit           | `c001bc3` fix(02): coverage thresholds — 02.4.2 |
+| Último commit           | `555c709` feat(02): production deploy — 02.4.7  |
 | Branch                  | main                                            |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 16/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [███░░░░░░░] 17/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 16 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 17 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -234,6 +234,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [CONFIG] documentacion)
 - **Commit**: PENDIENTE
 - **Notas**: Formato {type}/{caja}.{subcaja}/{description}. 11 types alineados con commitlint. 9 cajas (02-10) con nota sobre Caja 01. 6 ejemplos validos, 4 invalidos. 3 tablas Markdown. 6 bloques de codigo con triple backtick.
+
+### [02.4.7] — Configurar production deploy con smoke tests
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-03 21:00
+- **Archivos**: src/app/api/health/route.ts (NUEVO), .github/workflows/production.yml (NUEVO), src/app/api/health/.gitkeep (ELIMINADO)
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `555c709`
+- **Notas**: Health endpoint GET /api/health verifica 7 servicios (supabase, stripe, gemini, upstash_redis, inngest, sentry, posthog). Retorna 200 healthy / 503 degraded/down. Timeout 5s por servicio. Production workflow con 3 jobs: deploy (Vercel CLI), smoke-tests (retry loop + homepage + health + latency validation), notify-on-failure (github-script con instrucciones de rollback manual). Solo actions aprobadas (checkout@v4, pnpm/action-setup@v2, setup-node@v4, github-script@v7). Requiere secrets VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID configurados en GitHub.
 
 ### [02.4.2] — Configurar Vitest para unit tests
 
