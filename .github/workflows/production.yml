@@ -1,0 +1,188 @@
+name: Production Deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to Vercel Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Deploy to Production
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          # Pull Vercel project settings
+          vercel pull --yes --environment=production
+          # Build for production
+          vercel build --prod
+          # Deploy prebuilt artifacts and capture URL
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod)
+          echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed to: $DEPLOYMENT_URL"
+
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    timeout-minutes: 10
+    steps:
+      - name: Run smoke tests
+        env:
+          DEPLOY_URL: ${{ needs.deploy.outputs.url }}
+        run: |
+          # Wait for deployment to be fully available (CDN propagation)
+          echo "Waiting for deployment at $DEPLOY_URL..."
+          MAX_RETRIES=6
+          RETRY_DELAY=10
+          LIVE=false
+
+          for i in $(seq 1 $MAX_RETRIES); do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL" || echo "000")
+            if [ "$STATUS" = "200" ]; then
+              echo "Deployment is live (attempt $i/$MAX_RETRIES)"
+              LIVE=true
+              break
+            fi
+            echo "Not ready (status: $STATUS), retrying in ${RETRY_DELAY}s... ($i/$MAX_RETRIES)"
+            sleep $RETRY_DELAY
+          done
+
+          if [ "$LIVE" = "false" ]; then
+            echo "ERROR: Deployment not reachable after $MAX_RETRIES attempts"
+            exit 1
+          fi
+
+          # Smoke test 1: Homepage returns 200
+          echo ""
+          echo "=== Test 1: Homepage ==="
+          HOMEPAGE_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$DEPLOY_URL")
+          if [ "$HOMEPAGE_STATUS" != "200" ]; then
+            echo "FAIL: Homepage returned $HOMEPAGE_STATUS (expected 200)"
+            exit 1
+          fi
+          echo "PASS: Homepage returned 200"
+
+          # Smoke test 2: Health endpoint returns valid status
+          echo ""
+          echo "=== Test 2: Health Endpoint ==="
+          HEALTH_OUTPUT=$(curl -s -w "\n%{http_code}" "$DEPLOY_URL/api/health")
+          HEALTH_BODY=$(echo "$HEALTH_OUTPUT" | sed '$d')
+          HEALTH_STATUS=$(echo "$HEALTH_OUTPUT" | tail -1)
+
+          if [ "$HEALTH_STATUS" != "200" ] && [ "$HEALTH_STATUS" != "503" ]; then
+            echo "FAIL: Health endpoint returned unexpected status $HEALTH_STATUS"
+            exit 1
+          fi
+          echo "Health endpoint returned HTTP $HEALTH_STATUS"
+
+          # Smoke test 3: Validate response structure and latency threshold
+          echo ""
+          echo "=== Test 3: Response Validation ==="
+          echo "$HEALTH_BODY" | python3 -c "
+import sys, json
+try:
+    data = json.load(sys.stdin)
+except json.JSONDecodeError as e:
+    print('FAIL: Invalid JSON: ' + str(e))
+    sys.exit(1)
+
+for field in ['status', 'version', 'timestamp', 'services']:
+    if field not in data:
+        print('FAIL: Missing field: ' + field)
+        sys.exit(1)
+
+if not isinstance(data['services'], dict):
+    print('FAIL: services must be an object')
+    sys.exit(1)
+
+print('Overall: ' + data['status'])
+print('Version: ' + data['version'])
+LATENCY_MAX = 10000
+for svc, info in data['services'].items():
+    latency = info.get('latencyMs', 'N/A')
+    status = info.get('status', 'N/A')
+    msg = info.get('message', '')
+    line = '  ' + svc + ': ' + str(status) + ' (' + str(latency) + 'ms)'
+    if msg:
+        line = line + ' - ' + msg
+    print(line)
+    if isinstance(latency, (int, float)) and latency > LATENCY_MAX:
+        print('FAIL: ' + svc + ' latency exceeds ' + str(LATENCY_MAX) + 'ms')
+        sys.exit(1)
+
+print('')
+print('PASS: Structure valid, latencies within threshold')
+"
+
+          # Final verdict
+          if [ "$HEALTH_STATUS" = "200" ]; then
+            echo ""
+            echo "=== All smoke tests PASSED ==="
+          else
+            echo ""
+            echo "FAIL: Health returned 503 — some services degraded/down"
+            echo "Review health response above for details"
+            exit 1
+          fi
+
+  notify-on-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy, smoke-tests]
+    if: failure()
+    timeout-minutes: 5
+    steps:
+      - name: Report failure
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            var sha = context.sha.substring(0, 7);
+            var runUrl = context.serverUrl + '/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId;
+
+            core.error('Production deploy failed for commit ' + sha + '. Review: ' + runUrl);
+
+            core.info('');
+            core.info('=== MANUAL ROLLBACK INSTRUCTIONS ===');
+            core.info('1. Go to Vercel Dashboard > metamen > Deployments');
+            core.info('2. Find the last successful production deployment');
+            core.info('3. Click three-dot menu > Promote to Production');
+            core.info('');
+            core.info('Or revert the commit:');
+            core.info('  git revert ' + context.sha);
+            core.info('  git push origin main');
