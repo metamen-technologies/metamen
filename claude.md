@@ -1,3 +1,9 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+---
+
 # METAMEN100 — PROJECT RULES
 
 # ══════════════════════════════════════════════════════════════
@@ -13,6 +19,49 @@
 # Última actualización: 2026-02-21 (reset sesión inicial)
 
 # ══════════════════════════════════════════════════════════════
+
+## 0. DEVELOPMENT COMMANDS
+
+```bash
+# Development
+pnpm dev          # Next.js dev server with Turbopack (port 3000)
+pnpm build        # Production build
+pnpm start        # Start production server
+
+# Quality checks
+pnpm lint         # ESLint (next lint)
+pnpm typecheck    # tsc --noEmit
+pnpm format       # Prettier --write src/**
+pnpm format:check # Prettier --check src/**
+
+# Testing
+pnpm test              # Run all tests once (vitest run)
+pnpm test:watch        # Watch mode
+pnpm test:coverage     # Coverage report (v8, output: ./coverage/)
+
+# Run a single test file
+pnpm vitest run src/lib/core/vectors/vectors.test.ts
+
+# Run tests matching a name pattern
+pnpm vitest run --reporter=verbose -t "calculateScore"
+
+# Full pre-flight (lint + typecheck + test)
+pnpm verify
+
+# Environment validation
+pnpm env:check    # Validates all 17 env vars via scripts/validate-env.ts
+```
+
+**Package manager**: `pnpm` only (v9.15.0+, Node 20+). Never use `npm` or `yarn`.
+
+**Path aliases** (tsconfig + vitest):
+
+- `@/*` → `src/*`
+- `@/core/*` → `src/lib/core/*`
+- `@/actions/*` → `src/lib/server/actions/*` (note: NOT `src/actions/`)
+- `@/components/*` → `src/components/*`
+- `@/stores/*` → `src/stores/*`
+- `@/types/*` → `src/types/*`
 
 ## 1. IDENTIDAD DEL PROYECTO
 
@@ -223,7 +272,7 @@ PASO 1 — LEER: Abrir la Caja correspondiente y leer la tarea COMPLETA
 PASO 2 — IMPLEMENTAR: Escribir código siguiendo detalle, rutas, firmas, tipos exactos
 PASO 3 — VALIDAR: Ejecutar el criterio de validación descrito en la columna "Validación"
 PASO 4 — TEST: Si la tarea es [LOGIC] o [TYPESCRIPT] con lógica, crear/actualizar test
-PASO 5 — LINT: Ejecutar `npm run lint && npm run typecheck`
+PASO 5 — LINT: Ejecutar `pnpm lint && pnpm typecheck`
 PASO 6 — COMMIT: `git add -A && git commit -m "tipo(ID): descripción"`
 PASO 7 — BITÁCORA: Agregar entrada en BITACORA.md (ver formato abajo)
 PASO 8 — PUSH: `git push origin main`
