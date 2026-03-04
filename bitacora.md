@@ -12,21 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                    |
-| ----------------------- | ---------------------------------------- |
-| Fase actual             | MVP v1.0                                 |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**         |
-| Última tarea completada | `02.4.9` — Dependabot configuration      |
-| Próxima tarea           | (siguiente en secuencia Caja MVP-02)     |
-| Bloqueadores            | Ninguno                                  |
-| Fecha inicio proyecto   | 2026-02-21                               |
-| Último commit           | `e27f1ad` chore(02): dependabot — 02.4.9 |
-| Branch                  | main                                     |
+| Campo                   | Valor                                                             |
+| ----------------------- | ----------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                          |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                                  |
+| Última tarea completada | `02.5.1` — Crear .env.example documentado                         |
+| Próxima tarea           | (siguiente en secuencia Caja MVP-02)                              |
+| Bloqueadores            | Ninguno                                                           |
+| Fecha inicio proyecto   | 2026-02-21                                                        |
+| Último commit           | `e6c9566` chore(02): add documented .env.example with 17 env vars |
+| Branch                  | main                                                              |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [███░░░░░░░] 19/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [████░░░░░░] 20/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 17 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 18 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -270,6 +270,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: tests/unit/setup.test.ts (2 passed, 0 failed)
 - **Commit**: `8de3e26` (config) + `7c6cfba` (gitignore fix) + `c001bc3` (thresholds fix)
 - **Notas**: Vitest 2.1.9 con jsdom, globals: true, v8 coverage, pool: forks (maxForks: 2, minForks: 1 — requerido por tinypool compat). Path aliases en array format para correcta prioridad (específicos antes de catch-all @/). Setup con @testing-library/jest-dom/vitest. @vitest/coverage-v8@2.1.9 instalado (matching vitest). Coverage thresholds (80%) COMENTADOS temporalmente — ver DEUDA-TEST-001.
+
+### [02.5.1] — Crear .env.example documentado (17 vars, 7 servicios)
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-05 23:20
+- **Archivos**: .env.example (NUEVO), .gitignore (modificado — agregado `!.env.example`)
+- **Test**: N/A (tarea [CONFIG])
+- **Commit**: `e6c9566`
+- **Notas**: Archivo .env.example con 17 variables agrupadas por 7 servicios (Supabase 4, Stripe 4, Gemini 1, Sentry 1, PostHog 2, Upstash Redis 2, Inngest 2) + App 1. Variables: NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, SUPABASE_PROJECT_ID, STRIPE_SECRET_KEY, NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY, STRIPE_WEBHOOK_SECRET, STRIPE_PRICE_ID_MONTHLY, GEMINI_API_KEY, SENTRY_DSN, NEXT_PUBLIC_POSTHOG_KEY, NEXT_PUBLIC_POSTHOG_HOST, UPSTASH_REDIS_REST_URL, UPSTASH_REDIS_REST_TOKEN, INNGEST_EVENT_KEY, INNGEST_SIGNING_KEY, NEXT_PUBLIC_APP_URL. NO incluye REPLICATE ni RESEND. Cada variable con comentario descriptivo y URL de obtención. Fix: .gitignore tenía `.env*` que ignoraba .env.example — se agregó `!.env.example` para excepción.
 
 ### [02.4.1] — Configurar CI workflow
 
