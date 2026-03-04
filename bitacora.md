@@ -12,16 +12,16 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                                                         |
-| ----------------------- | ----------------------------------------------------------------------------- |
-| Fase actual             | MVP v1.0                                                                      |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                                              |
-| Última tarea completada | `02.6.5` — Crear clientes Supabase (4 variantes)                              |
-| Próxima tarea           | `02.6.6` — Generar tipos de DB con supabase gen types                         |
-| Bloqueadores            | Ninguno                                                                       |
-| Fecha inicio proyecto   | 2026-02-21                                                                    |
-| Último commit           | `8d2abfa` feat(02): add supabase clients (browser, server, middleware, admin) |
-| Branch                  | main                                                                          |
+| Campo                   | Valor                                                                  |
+| ----------------------- | ---------------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                               |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                                       |
+| Última tarea completada | `02.6.6` — Configurar Supabase CLI para desarrollo local               |
+| Próxima tarea           | (siguiente en secuencia Caja MVP-02)                                   |
+| Bloqueadores            | Ninguno                                                                |
+| Fecha inicio proyecto   | 2026-02-21                                                             |
+| Último commit           | `dc65b91` feat(supabase): configure supabase cli for local development |
+| Branch                  | main                                                                   |
 
 ## MAPA DE PROGRESO
 
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 19 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 20 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -297,6 +297,15 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [TYPESCRIPT] — clientes son wrappers de SDK, no lógica pura)
 - **Commit**: `8d2abfa`
 - **Notas**: 4 variantes de cliente Supabase creadas: (1) client.ts — browser client con @supabase/ssr createBrowserClient, 'use client' directive; (2) server.ts — server client con @supabase/ssr createServerClient, async cookies() para Next.js 15; (3) middleware.ts — helper updateSession con getUser() (NO getSession), retorno tipado con User|null; (4) admin.ts — service_role client con @supabase/supabase-js createClient, importa env desde @/lib/env, autoRefreshToken/persistSession desactivados. Archivos client.ts/server.ts/middleware.ts documentan EXCEPCIÓN RULE 5 (no usan @/lib/env). types.ts tiene placeholder Database = Record<string, unknown> con TODO(02.6.6). index.ts es barrel de tipo solamente (no re-exporta clientes). .gitkeep eliminado. CookieOptions tipado explícitamente para evitar implicit any con strict mode.
+
+### [02.6.6] — Configurar Supabase CLI para desarrollo local
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-04 13:10
+- **Archivos**: supabase/config.toml (NUEVO), supabase/.gitignore (NUEVO), src/types/database.types.ts (NUEVO), package.json (MODIFICADO — +9 scripts db:\* + supabase devDep), pnpm-lock.yaml
+- **Test**: N/A (tarea [SETUP])
+- **Commit**: `dc65b91`
+- **Notas**: supabase CLI v2.76.16 instalado como devDependency. supabase/config.toml configurado para MetaMen100 local dev: project.id=local-dev, PG15, API en :54321, Studio en :54323, auth con site_url=http://localhost:3000, redirect a /auth/callback, email confirmations deshabilitadas para dev, Google OAuth con env(). 9 scripts db:\* agregados: start/stop/status/reset/seed/migration:new/migration:up/types/diff. types generados a src/types/database.types.ts. Placeholder de tipos con Database interface, Json type, y helpers Tables/Inserts/Updates/Enums — 13 tablas documentadas en comentario. supabase/.gitignore creado por supabase init (ignora .branches/.temp, NO ignora config.toml ni migrations). gitkeep de functions/ y migrations/ intactos. pnpm add -D -w requirió flag -w por workspace root.
 
 ---
 
