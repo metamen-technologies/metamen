@@ -12,21 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                                                               |
-| ----------------------- | ----------------------------------------------------------------------------------- |
-| Fase actual             | MVP v1.0                                                                            |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                                                    |
-| Última tarea completada | `02.6.16` — Crear cliente Gemini con soporte para 6 personajes y 6 vectores         |
-| Próxima tarea           | `02.6.17` [MANUAL] — Crear cuenta y database Upstash                                |
-| Bloqueadores            | Ninguno                                                                             |
-| Fecha inicio proyecto   | 2026-02-21                                                                          |
-| Último commit           | `7bcefbd` feat(02): add gemini 2.5 flash client with 6 characters and vector tokens |
-| Branch                  | main                                                                                |
+| Campo                   | Valor                                                                             |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                                          |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                                                  |
+| Última tarea completada | `02.6.18` — Crear cliente Redis y rate limiters                                   |
+| Próxima tarea           | `02.6.19` [AUTO] — Implementar rate limiting en middleware                        |
+| Bloqueadores            | Ninguno                                                                           |
+| Fecha inicio proyecto   | 2026-02-21                                                                        |
+| Último commit           | `1ce349e` feat(redis): add upstash redis client, rate limiters, connectivity test |
+| Branch                  | main                                                                              |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [█████░░░░░] 29/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [█████░░░░░] 31/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 30 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 32 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -387,6 +387,24 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [TYPESCRIPT] — requiere GEMINI_API_KEY real para test de integración)
 - **Commit**: `7bcefbd`
 - **Notas**: Ruta real: `src/lib/ai/gemini.ts` (no `src/lib/gemini/` como indica CLAUDE.md v1). Función `generateAvatarImage(params)` con Result<T,E> monad. 6 personajes (IDENTITY_ANCHORS 1-6). 6 vectores con tokens: PHYSIQUE (11 niveles 0-50), JAWLINE (3 niveles), AURA (3 niveles), WEALTH (3 niveles), SOCIAL (3 niveles), ENV (10 entornos 1-10). HEALTH_TOKENS (4 thresholds). Retry con backoff 1s/5s/30s (4 intentos totales). Timeout 60s por llamada. Exporta buildPrompt, getVectorToken, getHealthToken, validateParams para testing unitario futuro.
+
+### [02.6.17] — Crear cuenta y database Upstash
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en console.upstash.com) + .env.local actualizado
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: Database Redis creada en Upstash. Región US-East-1. UPSTASH_REDIS_REST_URL y UPSTASH_REDIS_REST_TOKEN configurados en .env.local. Plan free tier.
+
+### [02.6.18] — Crear cliente Redis y rate limiters
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-05
+- **Archivos**: src/lib/redis/client.ts, src/lib/redis/ratelimit.ts, src/lib/redis/index.ts, scripts/test-redis.ts
+- **Test**: scripts/test-redis.ts (6/6 checks passed: env vars, PING, SET, GET, DEL, rate limiter decrement)
+- **Commit**: `1ce349e`
+- **Notas**: Singleton Redis via @upstash/redis. isRedisAvailable() fail-open (retorna false en vez de throw). 6 rate limiters sliding-window: authLimiter (5/h), registerLimiter (3/h), taskCompletionLimiter (50/h), readTasksLimiter (100/m), storePurchaseLimiter (10/m), storeBrowseLimiter (100/m). Prefijos: metamen:rl:{scope}. ephemeralCache:new Map() para reducir latencia. Middleware (02.6.19) consumirá estos limiters.
 
 ### [02.6.7] — Configurar Supabase Realtime para notificaciones
 
