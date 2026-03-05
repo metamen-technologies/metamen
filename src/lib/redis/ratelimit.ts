@@ -66,3 +66,11 @@ export const storeBrowseLimiter = new Ratelimit({
   prefix: 'metamen:rl:store-browse',
   ephemeralCache: new Map(),
 });
+
+/** Image generation: 5 requests / 1 hour per user_id */
+export const imageGenerationLimiter = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(5, '1 h'),
+  prefix: 'metamen:rl:image-generation',
+  ephemeralCache: new Map(),
+});

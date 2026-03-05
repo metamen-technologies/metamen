@@ -6,5 +6,6 @@ export {
   readTasksLimiter,
   storePurchaseLimiter,
   storeBrowseLimiter,
+  imageGenerationLimiter,
 } from './ratelimit';
 export type { RateLimitResult } from './ratelimit';
