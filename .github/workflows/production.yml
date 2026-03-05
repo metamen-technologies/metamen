@@ -48,11 +48,11 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           # Pull Vercel project settings
-          vercel pull --yes --environment=production
+          vercel pull --yes --environment=production --token=$VERCEL_TOKEN
           # Build for production
-          vercel build --prod
+          vercel build --prod --token=$VERCEL_TOKEN
           # Deploy prebuilt artifacts and capture URL
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod)
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN)
           echo "url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
           echo "Deployed to: $DEPLOYMENT_URL"
 
