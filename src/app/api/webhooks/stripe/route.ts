@@ -7,6 +7,7 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
 
 export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 // Tipos temporales para operaciones en subscriptions.
 // Se eliminan cuando CAJA_3 genere los tipos reales de Database.
