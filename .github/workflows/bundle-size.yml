@@ -49,7 +49,7 @@ jobs:
           FIRST_LOAD_VALUES=$(grep -oP '[\\d.]+\\s*kB$' pr-build-output.txt | grep -oP '[\\d.]+' || echo "0")
           # Find the maximum First Load JS value
           MAX_SIZE=$(echo "$FIRST_LOAD_VALUES" | sort -rn | head -1)
-          # Validate that build produced output — fail explicitly if not
+          # Validate that build produced output -- fail explicitly if not
           if [ -z "$MAX_SIZE" ] || [ "$MAX_SIZE" = "0" ]; then
             echo "ERROR: Build did not produce bundle size output. Check build logs above."
             echo "total_size=0" >> "$GITHUB_OUTPUT"
@@ -137,7 +137,7 @@ jobs:
 
             var exceeds = prSize > LIMIT_BYTES;
             var statusEmoji = buildFailed ? ':x:' : (exceeds ? ':x:' : ':white_check_mark:');
-            var statusText = buildFailed ? 'FAIL — PR build failed (no bundle output)' : (exceeds ? 'FAIL — Exceeds ' + LIMIT_KB + 'KB limit' : 'PASS');
+            var statusText = buildFailed ? 'FAIL -- PR build failed (no bundle output)' : (exceeds ? 'FAIL -- Exceeds ' + LIMIT_KB + 'KB limit' : 'PASS');
             var deltaEmoji = delta > 0 ? ':chart_with_upwards_trend:' : (delta < 0 ? ':chart_with_downwards_trend:' : ':left_right_arrow:');
             var deltaSign = delta > 0 ? '+' : '';
 
@@ -214,7 +214,7 @@ jobs:
 
             // Fail the workflow if bundle exceeds limit OR build failed
             if (buildFailed) {
-              core.setFailed('PR build failed — no bundle size output produced');
+              core.setFailed('PR build failed -- no bundle size output produced');
             } else if (exceeds) {
               core.setFailed('Bundle size ' + prKb + 'kB exceeds limit of ' + LIMIT_KB + 'kB');
             }

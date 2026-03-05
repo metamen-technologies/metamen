@@ -156,7 +156,7 @@ print('PASS: Structure valid, latencies within threshold')
             echo "=== All smoke tests PASSED ==="
           else
             echo ""
-            echo "FAIL: Health returned 503 — some services degraded/down"
+            echo "FAIL: Health returned 503 -- some services degraded/down"
             echo "Review health response above for details"
             exit 1
           fi
