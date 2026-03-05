@@ -20,7 +20,7 @@
 | Próxima tarea           | `02.6.19` [AUTO] — Implementar rate limiting en middleware                        |
 | Bloqueadores            | Ninguno                                                                           |
 | Fecha inicio proyecto   | 2026-02-21                                                                        |
-| Último commit           | `1ce349e` feat(redis): add upstash redis client, rate limiters, connectivity test |
+| Último commit           | `dfe6785` feat(02.6.18): add image generation rate limiter to redis module        |
 | Branch                  | main                                                                              |
 
 ## MAPA DE PROGRESO
@@ -400,11 +400,11 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 ### [02.6.18] — Crear cliente Redis y rate limiters
 
 - **Estado**: ✅ COMPLETADA
-- **Fecha**: 2026-03-05
-- **Archivos**: src/lib/redis/client.ts, src/lib/redis/ratelimit.ts, src/lib/redis/index.ts, scripts/test-redis.ts
+- **Fecha**: 2026-03-05 04:39
+- **Archivos**: src/lib/redis/client.ts, src/lib/redis/ratelimit.ts, src/lib/redis/index.ts
 - **Test**: scripts/test-redis.ts (6/6 checks passed: env vars, PING, SET, GET, DEL, rate limiter decrement)
-- **Commit**: `1ce349e`
-- **Notas**: Singleton Redis via @upstash/redis. isRedisAvailable() fail-open (retorna false en vez de throw). 6 rate limiters sliding-window: authLimiter (5/h), registerLimiter (3/h), taskCompletionLimiter (50/h), readTasksLimiter (100/m), storePurchaseLimiter (10/m), storeBrowseLimiter (100/m). Prefijos: metamen:rl:{scope}. ephemeralCache:new Map() para reducir latencia. Middleware (02.6.19) consumirá estos limiters.
+- **Commit**: `1ce349e` (initial 6 limiters) + `dfe6785` (add imageGenerationLimiter)
+- **Notas**: Singleton Redis via @upstash/redis. isRedisAvailable() fail-open (retorna false en vez de throw). 7 rate limiters sliding-window: authLimiter (5/h), registerLimiter (3/h), taskCompletionLimiter (50/h), readTasksLimiter (100/m), storePurchaseLimiter (10/m), storeBrowseLimiter (100/m), imageGenerationLimiter (5/h). Prefijos: metamen:rl:{scope}. ephemeralCache:new Map() para reducir latencia. Middleware (02.6.19) consumirá estos limiters.
 
 ### [02.6.7] — Configurar Supabase Realtime para notificaciones
 
