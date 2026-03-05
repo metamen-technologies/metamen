@@ -107,7 +107,7 @@ pnpm env:check    # Validates all 17 env vars via scripts/validate-env.ts
 ### Next.js
 
 - **Server Components por defecto**. Solo `'use client'` cuando hay interactividad, hooks, o browser APIs.
-- **Server Actions para TODA mutación** (escritura DB). Ubicación: `src/actions/`. NUNCA API routes para CRUD.
+- **Server Actions para TODA mutación** (escritura DB). Ubicación: `src/lib/server/actions/` (alias `@/actions/`). NUNCA API routes para CRUD.
 - **API routes** solo para: webhooks externos (Stripe, Inngest), health check.
 - **Middleware** (`src/middleware.ts`) para protección de rutas auth.
 
@@ -190,12 +190,6 @@ metamen100/
 │   │   ├── layout.tsx            # Root layout
 │   │   ├── not-found.tsx
 │   │   └── error.tsx
-│   ├── actions/                  # Server Actions (mutaciones)
-│   │   ├── auth/index.ts
-│   │   ├── tasks/index.ts
-│   │   ├── avatar/index.ts
-│   │   ├── subscription/index.ts
-│   │   └── onboarding/index.ts
 │   ├── components/
 │   │   ├── ui/                   # Atoms: Button, Card, Input, Badge
 │   │   ├── layout/               # Shell, BottomNav, Header
@@ -214,12 +208,18 @@ metamen100/
 │   │   │   ├── validation/       # Cross-cutting validations
 │   │   │   ├── types/            # Result<T,E>, branded types
 │   │   │   └── utils/            # roundToDecimals, invariants
-│   │   ├── supabase/             # client.ts, server.ts, admin.ts, middleware.ts
-│   │   ├── stripe/               # client.ts, config.ts
-│   │   ├── gemini/               # client.ts, prompt-builder.ts, image-pipeline.ts
-│   │   ├── email/                # client.ts (4 funciones de email)
-│   │   ├── redis/                # client.ts, rate-limit.ts (3 limiters)
-│   │   ├── inngest/              # client.ts, functions/ (3 funciones)
+│   │   ├── server/
+│   │   │   └── actions/          # Server Actions (mutaciones) — alias @/actions/
+│   │   │       ├── auth/
+│   │   │       ├── tasks/
+│   │   │       ├── avatar/
+│   │   │       ├── store/
+│   │   │       └── index.ts
+│   │   ├── supabase/             # client.ts, server.ts, admin.ts, middleware.ts, realtime.ts
+│   │   ├── stripe/               # client.ts, server.ts
+│   │   ├── ai/                   # gemini.ts (generateAvatarImage, 6 personajes, 6 vectores)
+│   │   ├── redis/                # client.ts, rate-limit.ts (limiters)
+│   │   ├── inngest/              # client.ts, events.ts, functions/
 │   │   ├── analytics/            # posthog.ts, events.ts
 │   │   ├── constants/            # game.ts (TODAS las constantes del motor)
 │   │   ├── validators/           # Zod schemas compartidos

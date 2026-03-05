@@ -12,21 +12,21 @@
 
 ## ESTADO GENERAL
 
-| Campo                   | Valor                                                                                         |
-| ----------------------- | --------------------------------------------------------------------------------------------- |
-| Fase actual             | MVP v1.0                                                                                      |
-| Caja en curso           | **CAJA MVP-02: Infraestructura**                                                              |
-| Última tarea completada | `02.6.7` — Configurar Supabase Realtime para notificaciones                                   |
-| Próxima tarea           | (siguiente en secuencia Caja MVP-02)                                                          |
-| Bloqueadores            | Ninguno                                                                                       |
-| Fecha inicio proyecto   | 2026-02-21                                                                                    |
-| Último commit           | `19cd54c` feat(supabase): add realtime subscription for notifications, avatar_states, wallets |
-| Branch                  | main                                                                                          |
+| Campo                   | Valor                                                                               |
+| ----------------------- | ----------------------------------------------------------------------------------- |
+| Fase actual             | MVP v1.0                                                                            |
+| Caja en curso           | **CAJA MVP-02: Infraestructura**                                                    |
+| Última tarea completada | `02.6.16` — Crear cliente Gemini con soporte para 6 personajes y 6 vectores         |
+| Próxima tarea           | `02.6.17` [MANUAL] — Crear cuenta y database Upstash                                |
+| Bloqueadores            | Ninguno                                                                             |
+| Fecha inicio proyecto   | 2026-02-21                                                                          |
+| Último commit           | `7bcefbd` feat(02): add gemini 2.5 flash client with 6 characters and vector tokens |
+| Branch                  | main                                                                                |
 
 ## MAPA DE PROGRESO
 
 ```
-CAJA MVP-02: Infraestructura     [████░░░░░░] 20/96  ← EN CURSO
+CAJA MVP-02: Infraestructura     [█████░░░░░] 29/96  ← EN CURSO
 CAJA MVP-03: Base de Datos       [░░░░░░░░░░] 0/??
 CAJA MVP-04: Motor Core          [░░░░░░░░░░] 0/??
 CAJA MVP-05: Auth/Onboarding     [░░░░░░░░░░] 0/??
@@ -41,18 +41,18 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## TECH STACK CONFIGURADO
 
-| Servicio      | Status         | Notas                |
-| ------------- | -------------- | -------------------- |
-| Next.js 15    | ✅ Configurado | 15.5.12 + App Router |
-| Supabase      | ⬜ Pendiente   |                      |
-| Stripe        | ⬜ Pendiente   |                      |
-| Gemini API    | ⬜ Pendiente   |                      |
-| Resend        | ⬜ Pendiente   |                      |
-| Upstash Redis | ⬜ Pendiente   |                      |
-| Inngest       | ⬜ Pendiente   |                      |
-| Vercel        | ⬜ Pendiente   |                      |
-| Sentry        | ⬜ Pendiente   |                      |
-| PostHog       | ⬜ Pendiente   |                      |
+| Servicio      | Status         | Notas                   |
+| ------------- | -------------- | ----------------------- |
+| Next.js 15    | ✅ Configurado | 15.5.12 + App Router    |
+| Supabase      | ⬜ Pendiente   |                         |
+| Stripe        | ✅ Configurado | SDK + webhook handler   |
+| Gemini API    | ✅ Configurado | gemini-2.5-flash client |
+| Resend        | ⬜ Pendiente   |                         |
+| Upstash Redis | ⬜ Pendiente   |                         |
+| Inngest       | ⬜ Pendiente   |                         |
+| Vercel        | ⬜ Pendiente   |                         |
+| Sentry        | ⬜ Pendiente   |                         |
+| PostHog       | ⬜ Pendiente   |                         |
 
 ## CREDENCIALES OBTENIDAS
 
@@ -98,7 +98,7 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 
 ## REGISTRO DE TAREAS COMPLETADAS
 
-- **Total actual**: 21 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
+- **Total actual**: 30 tareas completadas (`02.2.7` marcado NO MVP / SKIPPED)
 
 ### [02.1.2] — Inicializar proyecto Next.js 15
 
@@ -306,6 +306,87 @@ CAJA MVP-13: Launch              [░░░░░░░░░░] 0/??
 - **Test**: N/A (tarea [SETUP])
 - **Commit**: `dc65b91`
 - **Notas**: supabase CLI v2.76.16 instalado como devDependency. supabase/config.toml configurado para MetaMen100 local dev: project.id=local-dev, PG15, API en :54321, Studio en :54323, auth con site_url=http://localhost:3000, redirect a /auth/callback, email confirmations deshabilitadas para dev, Google OAuth con env(). 9 scripts db:\* agregados: start/stop/status/reset/seed/migration:new/migration:up/types/diff. types generados a src/types/database.types.ts. Placeholder de tipos con Database interface, Json type, y helpers Tables/Inserts/Updates/Enums — 13 tablas documentadas en comentario. supabase/.gitignore creado por supabase init (ignora .branches/.temp, NO ignora config.toml ni migrations). gitkeep de functions/ y migrations/ intactos. pnpm add -D -w requirió flag -w por workspace root.
+
+### [02.6.8] — Configurar Supabase Auth email templates personalizados
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en Supabase Dashboard > Authentication > Email Templates)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: 4 templates personalizados con branding MetaMen100 (bg `#0A0A0A`, accent-gold `#D4AF37`, accent-cta `#FF073A`). Idioma es-MX. From name "MetaMen100". Templates: Confirm signup, Magic link, Change email, Reset password.
+
+### [02.6.9] — Verificar flujo completo de Supabase Auth emails
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-05
+- **Archivos**: scripts/verify-auth-emails.ts
+- **Test**: N/A (tarea [AUTO/SCRIPT])
+- **Commit**: `3b4a72f`
+- **Notas**: Script valida 5 verificaciones: (1) registro envía email de confirmación, (2) reset password envía link válido, (3) templates con branding correcto, (4) rate limits configurados, (5) redirect URLs. Documenta que emails transaccionales de juego son post-MVP (Resend). Enable_confirmations deshabilitado en dev local (correcto).
+
+### [02.6.10] — Crear cuenta Stripe y obtener API keys
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en dashboard.stripe.com)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: Publishable Key + Secret Key obtenidos y configurados en .env.local.
+
+### [02.6.11] — Crear productos y precios en Stripe
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en Stripe Dashboard > Products)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: 3 productos creados: Semanal $2.99/sem, Mensual $9.99/mes, Protocolo 100 $29.99 one-time. Price IDs con lookup keys metamen_weekly, metamen_monthly, metamen_protocol100. Vars en env.ts: STRIPE_PRICE_WEEKLY, STRIPE_PRICE_MONTHLY, STRIPE_PRICE_PROTOCOL_100.
+
+### [02.6.12] — Configurar webhooks en Stripe
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en Stripe Dashboard > Developers > Webhooks)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: Endpoint configurado. 4 eventos: checkout.session.completed, invoice.paid, invoice.payment_failed, customer.subscription.deleted. STRIPE_WEBHOOK_SECRET en .env.local.
+
+### [02.6.13] — Configurar Customer Portal
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en Stripe Dashboard > Settings > Customer Portal)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: Portal con update payment, cancel subscription, view invoices. Business name "MetaMen100". Modo Limbo 7 días post-cancelación.
+
+### [02.6.14] — Crear clientes Stripe y webhook handler
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-05
+- **Archivos**: src/lib/stripe/client.ts, src/lib/stripe/server.ts, src/app/api/webhooks/stripe/route.ts
+- **Test**: N/A (tarea [TYPESCRIPT] — webhook requiere Stripe live/test para test real)
+- **Commit**: `c26d6b7` (feat) + `7b66c3e` (chore: price id validation + env cleanup)
+- **Notas**: client.ts expone publishable key + STRIPE_CONFIG (locale es-419, theme night). server.ts crea Stripe SDK v17 con apiVersion 2025-02-24.acacia. webhook/route.ts maneja 4 eventos con validación criptográfica de firma, idempotencia por stripe_subscription_id, e interface SubscriptionRow placeholder (se reemplaza en CAJA-03 con tipos reales). `runtime = 'nodejs'` obligatorio para constructEvent. env.ts usa STRIPE_PRICE_WEEKLY/MONTHLY/PROTOCOL_100 (nombres finales).
+
+### [02.6.15] — Obtener API key de Gemini
+
+- **Estado**: ✅ COMPLETADA (MANUAL)
+- **Fecha**: 2026-03-05
+- **Archivos**: N/A (acción en aistudio.google.com)
+- **Test**: N/A (tarea [MANUAL])
+- **Commit**: N/A
+- **Notas**: GEMINI_API_KEY (formato AIzaSy…) obtenida y configurada en .env.local. Gemini 2.5 Flash — único proveedor IA (sin Replicate, DALL-E, Fal.ai).
+
+### [02.6.16] — Crear cliente Gemini con soporte para 6 personajes y 6 vectores
+
+- **Estado**: ✅ COMPLETADA
+- **Fecha**: 2026-03-05
+- **Archivos**: src/lib/ai/gemini.ts
+- **Test**: N/A (tarea [TYPESCRIPT] — requiere GEMINI_API_KEY real para test de integración)
+- **Commit**: `7bcefbd`
+- **Notas**: Ruta real: `src/lib/ai/gemini.ts` (no `src/lib/gemini/` como indica CLAUDE.md v1). Función `generateAvatarImage(params)` con Result<T,E> monad. 6 personajes (IDENTITY_ANCHORS 1-6). 6 vectores con tokens: PHYSIQUE (11 niveles 0-50), JAWLINE (3 niveles), AURA (3 niveles), WEALTH (3 niveles), SOCIAL (3 niveles), ENV (10 entornos 1-10). HEALTH_TOKENS (4 thresholds). Retry con backoff 1s/5s/30s (4 intentos totales). Timeout 60s por llamada. Exporta buildPrompt, getVectorToken, getHealthToken, validateParams para testing unitario futuro.
 
 ### [02.6.7] — Configurar Supabase Realtime para notificaciones
 
